@@ -5,17 +5,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Foodcart Stores – Interactive Mockup</title>
         <link rel="stylesheet" href="assets/mockup.css?v=2">
-        <script src="assets/mockup-3.js?v=2"></script>    
+        <script src="assets/mockup-4.js?v=2"></script>    
     </head>
     
     <div id="header-placeholder" class=" sticky-top"></div>
 
         <main class="main" >
 
-            <!-- Hero -->
+            <!-- Hero
             <section class="hero">
                 
-                <!-- Hero Split -->
+                <-- Hero Split --
                 <div class="hero-inner container">
 
                     <div class="hero-col retail">
@@ -34,17 +34,137 @@
 
                 </div>
 
+            </section> -->
+            
+            <section class="hero">
+                
+                <!-- 1. GUEST MODE (Visible by default) -->
+                <div id="hero-guest-view" class="hero-inner container hero-view show">
+
+                    <div class="hero-col retail">
+                        <span class="tag tag-retail">INDIVIDUAL</span>
+                        <h1>Premium Kitchen Staples, Delivered Fast</h1>
+                        <p>Stock up on authentic Nutragold® Rice, Beans & Garri. Guaranteed freshness in single units across Lagos.</p>
+                        <a href="shop.html" class="btn btn-green uppertext">Shop Now →</a>
+                    </div>
+
+                    <div class="hero-col wholesale">
+                        <span class="tag tag-wholesale">BUSINESSES</span>
+                        <h1>Factory Rates for Retailers & Stockists</h1>
+                        <p>Partner directly with Terranova Foods Ltd. Unlock tiered carton pricing, priority freight & bulk discounts.</p>
+                        <a href="register.html" class="btn btn-orange uppertext" data-auth="register" title="Apply for B2B Account">Sign up Now →</a>
+                    </div>
+
+                </div>
+
+                <!-- 2. LOGGED-IN RETAIL MODE (Hidden by default) -->
+                <div id="hero-retail-view" class="hero-inner container hero-view hide">
+
+                    <div class="hero-col retail">
+
+                        <span class="tag tag-retail">WELCOME BACK</span>
+                        <h1>Stock Up Your Kitchen with Fresh Staples</h1>
+                        <p>100% clean, stone-free Nutragold® products delivered straight to your doorstep. Free Lagos delivery on orders over ₦150,000.</p>                        
+                        <a href="shop.html" class="btn btn-green uppertext">Browse Fresh Stock →</a>
+
+                    </div>
+
+                </div>
+
+                <!-- 3. LOGGED-IN B2B WHOLESALE MODE (Hidden by default) -->
+                <div id="hero-wholesale-view" class="hero-inner container hero-view hide">
+
+                    <div class="hero-col wholesale">
+
+                        <span class="tag tag-wholesale">EXCLUSIVE B2B TIER ACTIVE</span>
+                        <h1>Factory Pricing & Bulk Dispatch Unlocked</h1>
+                        <p>Live carton and pallet rates applied across all SKUs. Priority freight enabled for your registered business account.</p>
+                        <a href="shop.html?mode=wholesale" class="btn btn-orange uppertext">Order Bulk Stock Now →</a>
+
+                    </div>
+                    
+                </div>
+
+            </section>
+
+            <!-- The Greencart Guarantee Section (Currys-Style) -->                    
+            <section class="guarantee-section">
+                        
+                <div class="guarantee-inner container">
+                            
+                    <!-- Feature 1: Fast Delivery -->                            
+                    <div class="guarantee-card">
+                                
+                        <span class="guarantee-icon">🚚</span>
+                                
+                        <div class="guarantee-content">
+                                    
+                            <h4>Same-Day Lagos Delivery</h4>
+                                    
+                            <p>Order before 12 PM for rapid home or store delivery across Lagos State.</p>
+                                
+                        </div>
+                            
+                    </div>
+
+                    <!-- Feature 2: Wholesale Pricing -->                            
+                    <div class="guarantee-card">
+                                
+                        <div class="guarantee-icon">🏷️</div>
+                                
+                        <div class="guarantee-content">
+                                    
+                            <h4>Verified B2B Bulk Pricing</h4>
+                                    
+                            <p>Exclusive Tier-1 factory rates for registered retailers & distributors.</p>
+                                
+                        </div>
+                            
+                    </div>
+
+                    <!-- Feature 3: Quality Guarantee -->
+                    <div class="guarantee-card">
+                                
+                        <div class="guarantee-icon">🛡️</div>
+                                
+                        <div class="guarantee-content">
+                                    
+                            <h4>Nutragold® Quality Promise</h4>
+                                    
+                            <p>100% stone-free rice, premium honey beans & garri straight from trusted farms.</p>
+                                
+                        </div>
+                            
+                    </div>
+
+                    <!-- Feature 4: Customer Support -->
+                    <div class="guarantee-card">
+                                
+                        <div class="guarantee-icon">💬</div>
+                                
+                        <div class="guarantee-content">
+                                    
+                            <h4>Dedicated Support</h4>
+                                    
+                            <p>Direct assistance via WhatsApp & phone for smooth order tracking.</p>
+                                
+                        </div>
+                            
+                    </div>
+                        
+                </div>
+                    
             </section>
                 
             <!-- main content -->
             <section class="main-content">
 
                 <div class="main-content-inner container">
-                        
-                    <!-- NEW: CATEGORIES -->
-                    <section class="section category">
 
-                        <!-- Categories -->
+                    <!-- NEW: CATEGORIES
+                    <section class="section category"> -->
+
+                        <!-- Categories 
                         <h2 class="section-title">Shop by Category</h2>
                         <div class="cat-grid">
                             <a href="" class="cat-card" onclick="document.getElementById('page-pdp').checked=true"><span class="icon">🍚</span> Rice</a>
@@ -52,7 +172,7 @@
                             <a href="" class="cat-card" onclick="document.getElementById('page-pdp').checked=true"><span class="icon">🌾</span> Garri</a>
                         </div>      
 
-                    </section>
+                    </section>-->
 
                     <!-- NEW: FEATURED PRODUCTS -->
                     <section class="section featured">
@@ -70,10 +190,14 @@
                                         <div class="attrs"><span>5kg</span><span>10kg</span><span>25kg</span><span class="label-jumbo d-none">Jumbo</span></div>
                                         <p class="price retail">₦7,000 – ₦59,000</p>
                                         <p class="price wholesale">₦6,800 – ₦57,500</p>
-                                        <span class="badge badge-orange">Retail Price</span>
+                                        <div class="prod-stat">
+                                            <span class="badge badge-orange">Retail</span>
+                                            <span class="stock-badge low-stock">✅ In Stock</span>
+                                        </div>
                                     </div>
                                     <div class="call-to-act">
-                                        <a href="rice.html" class="btn btn-primary">View Product →</a>                               
+                                        <button type="submit" class="btn btn-green d-none">Add to Cart</button>
+                                        <a href="rice.html" class="btn btn-primary">View Options →</a>                               
                                     </div>
                                 </div>
                             </div>
@@ -87,10 +211,14 @@
                                         <div class="attrs"><span>5kg</span><span>10kg</span><span>25kg</span><span class="label-jumbo d-none">Jumbo</span></div>
                                         <p class="price retail">₦13,000 – ₦59,000</p>
                                         <p class="price wholesale">₦12,500 – ₦57,000</p>
-                                        <span class="badge badge-orange">Retail Price</span>
+                                        <div class="prod-stat">
+                                            <span class="badge badge-orange">Retail</span>
+                                            <span class="stock-badge in-stock">✅ In Stock</span>
+                                        </div>
                                     </div>
                                     <div class="call-to-act">
-                                        <a href="beans.html" class="btn btn-primary">View Product →</a>                               
+                                        <button type="submit" class="btn btn-green d-none">Add to Cart</button>
+                                        <a href="beans.html" class="btn btn-primary">View Options →</a>                               
                                     </div>                                
                                 </div>
                             </div>
@@ -104,9 +232,13 @@
                                         <div class="attrs"><span>5kg</span><span>10kg</span><span>25kg</span><span class="label-jumbo d-none">Jumbo</span></div>
                                         <p class="price retail">₦11,000 – ₦49,000</p>
                                         <p class="price wholesale">₦10,500 – ₦47,500</p>
-                                        <span class="badge badge-orange">Retail Price</span>
+                                        <div class="prod-stat">
+                                            <span class="badge badge-orange">Retail Price</span>
+                                            <span class="stock-badge in-stock">✅ In Stock</span>
+                                        </div>
                                     </div>
                                     <div class="call-to-act">
+                                        <button type="submit" class="btn btn-green d-none">Add to Cart</button>
                                         <a href="beans.html" class="btn btn-primary">View Product →</a>                               
                                     </div>                                
                                 </div>
@@ -121,10 +253,14 @@
                                         <div class="attrs"><span>5kg</span><span>10kg</span><span>25kg</span><span class="label-jumbo d-none">Jumbo</span></div>
                                         <p class="price retail">₦8,000 –  ₦35,000</p>
                                         <p class="price wholesale">₦7,500 – ₦33,500</p>
-                                        <span class="badge badge-orange">Retail Price</span>
+                                        <div class="prod-stat">
+                                            <span class="badge badge-orange">Retail</span>
+                                            <span class="stock-badge in-stock">✅ In Stock</span>
+                                        </div>
                                     </div>
                                     <div class="call-to-act">
-                                        <a href="garri.html" class="btn btn-primary">View Product →</a>                               
+                                        <button type="submit" class="btn btn-green d-none">Add to Cart</button>
+                                        <a href="garri.html" class="btn btn-primary">View Options →</a>                               
                                     </div>                                
                                 </div>
                             </div>
@@ -138,10 +274,14 @@
                                         <div class="attrs"><span>5kg</span><span>10kg</span><span>25kg</span><span class="label-jumbo d-none">Jumbo</span></div>
                                         <p class="price retail">₦6,000 – ₦19,000</p>
                                         <p class="price wholesale">₦5,500 – ₦17,500</p>
-                                        <span class="badge badge-orange">Retail Price</span>
+                                        <div class="prod-stat">
+                                            <span class="badge badge-orange">Retail</span>
+                                            <span class="stock-badge in-stock">✅ In Stock</span>
+                                        </div>
                                     </div>
                                     <div class="call-to-act">
-                                        <a href="garri.html" class="btn btn-primary">View Product →</a>                               
+                                        <button type="submit" class="btn btn-green d-none">Add to Cart</button>
+                                        <a href="garri.html" class="btn btn-primary">View Options →</a>                               
                                     </div>                                
                                 </div>
                             </div>
@@ -155,27 +295,35 @@
                                         <div class="attrs"><span class="d-none">5kg</span><span class="d-none">10kg</span><span class="d-none">25kg</span><span class="label-jumbo">Jumbo</span></div>
                                         <p class="price"><!--₦101,000 – -->₦111,000</p>
                                         <!--<p class="price wholesale">₦12,500 - ₦57,000</p>-->
-                                        <span class="badge badge-orange">Retail Price</span>
+                                        <div class="prod-stat">
+                                            <span class="badge badge-orange">Retail</span>
+                                            <span class="stock-badge in-stock">✅ In Stock</span>
+                                        </div>
                                     </div>
                                     <div class="call-to-act">
-                                        <a href="honey-beans-jumbo.html" class="btn btn-primary">View Product →</a>                               
+                                        <button type="submit" class="btn btn-green d-none">Add to Cart</button>
+                                        <a href="honey-beans-jumbo.html" class="btn btn-primary">View Options →</a>                               
                                     </div>                                
                                 </div>
                             </div>
 
                             <!-- Card 7: Jumbo Brown Beans -->
-                            <div class="product-card wholesales featured">
+                            <div class="product-card wholesale featured">
                                 <div class="img-placeholder">🫘 Product Image</div>
                                 <div class="card-details">
                                     <div class="details">
-                                        <h3 class="title">Nutragold Brown Beans Jumbo</h3>
+                                        <h3 class="title">Nutragold<sup>™</sup>  Brown Beans Jumbo</h3>
                                         <div class="attrs"><span class="d-none">5kg</span><span class="d-none">10kg</span><span class="d-none">25kg</span><span class="label-jumbo">Jumbo</span></div>
                                         <p class="price">₦101,000<!-- – ₦111,000--></p>
                                         <!--<p class="price wholesale">₦10,500 – ₦47,500</p>-->
-                                        <span class="badge badge-orange">Retail Price</span>
+                                        <div class="prod-stat">
+                                            <span class="badge badge-orange">Retail</span>
+                                            <span class="stock-badge in-stock">✅ In Stock</span>
+                                        </div>
                                     </div>
                                     <div class="call-to-act">
-                                        <a href="brown-beans-jumbo.html" class="btn btn-primary">View Product →</a>                               
+                                        <button type="submit" class="btn btn-green d-none">Add to Cart</button>
+                                        <a href="brown-beans-jumbo.html" class="btn btn-primary">View Options →</a>                               
                                     </div>                                
                                 </div>
                             </div>
@@ -189,10 +337,14 @@
                                         <div class="attrs"><span class="d-none">5kg</span><span class="d-none">10kg</span><span class="d-none">25kg</span><span class="label-jumbo">Jumbo</span><span class="label-premium">Premium</span><span class="label-standard">Standard</span></div>
                                         <p class="price">₦40,000 – ₦70,000</p>
                                         <!--<p class="price wholesale">₦5,500 – ₦17,500</p>-->
-                                        <span class="badge badge-orange">Retail Price</span>
+                                        <div class="prod-stat">
+                                            <span class="badge badge-orange">Retail</span>
+                                            <span class="stock-badge in-stock">✅ In Stock</span>
+                                        </div>
                                     </div>
                                     <div class="call-to-act">
-                                        <a href="garri-jumbo.html" class="btn btn-primary">View Product →</a>                               
+                                        <button type="submit" class="btn btn-green d-none">Add to Cart</button>
+                                        <a href="garri-jumbo.html" class="btn btn-primary">View Options →</a>                               
                                     </div>                                
                                 </div>
                             </div>
@@ -212,7 +364,7 @@
                             <div class="proposition-values">
 
                                 <div class="props-card">
-                                    <div class="icon">🚚</div>
+                                    <div class="icon">🚚⚡</div>
                                     <h4 class="title">Same-Day Delivery</h4>
                                     <p class="desc">Lagos-wide delivery within hours. Real-time tracking available.</p>
                                 </div>
@@ -265,10 +417,14 @@
                                         <div class="attrs"><span class="d-none">5kg</span><span class="d-none">10kg</span><span class="d-none">25kg</span><span class="label-50kg">50kg</span></div>
                                         <p class="price retail"><!--₦7,000 – -->₦59,000</p>
                                         <p class="price wholesale"><!--₦6,800 – -->₦57,500</p>
-                                        <span class="badge badge-orange">Retail Price</span>
+                                        <div class="prod-stat">
+                                            <span class="badge badge-orange">Retail</span>
+                                            <span class="stock-badge in-stock">✅ In Stock</span>
+                                        </div>
                                     </div>
                                     <div class="call-to-act">
-                                        <a href="rice.html" class="btn btn-primary">View Options →</a>
+                                        <button type="submit" class="btn btn-green">Add to Cart</button>
+                                        <a href="rice.html" class="btn btn-primary d-none">View Options →</a>
                                     </div>
                                 </div>
                             </div>
@@ -282,10 +438,14 @@
                                         <div class="attrs"><span class="d-none">5kg</span><span class="d-none">10kg</span><span>25kg</span><span class="label-jumbo d-none">Jumbo</span></div>
                                         <p class="price retail"><!--₦13,000 – -->₦59,000</p>
                                         <p class="price wholesale"><!--₦12,500 – -->₦57,500</p>
-                                        <span class="badge badge-orange">Retail Price</span>
+                                        <div class="prod-stat">
+                                            <span class="badge badge-orange">Retail</span>
+                                            <span class="stock-badge in-stock">✅ In Stock</span>
+                                        </div>
                                     </div>
                                     <div class="call-to-act">
-                                        <a href="beans.html" class="btn btn-primary">View Options →</a>
+                                        <button type="submit" class="btn btn-green">Add to Cart</button>
+                                        <a href="beans.html" class="btn btn-primary d-none">View Options →</a>
                                     </div>
                                 </div>
                             </div>
@@ -299,10 +459,14 @@
                                         <div class="attrs"><span>5kg</span><span>10kg</span><span>25kg</span><span class="label-jumbo">Jumbo</span></div>
                                         <p class="price retail">₦11,000 – ₦49,000</p>
                                         <p class="price wholesale">₦10,500 – ₦47,500</p>
-                                        <span class="badge badge-orange">Retail Price</span>
+                                        <div class="prod-stat">
+                                            <span class="badge badge-orange">Retail</span>
+                                            <span class="stock-badge in-stock">✅ In Stock</span>
+                                        </div>
                                     </div>
                                     <div class="call-to-act">
-                                        <a href="beans.html" class="btn btn-primary">View Options →</a>
+                                        <button type="submit" class="btn btn-green">Add to Cart</button>
+                                        <a href="beans.html" class="btn btn-primary d-none">View Options →</a>
                                     </div>
                                 </div>
                             </div> -->
@@ -316,10 +480,14 @@
                                         <div class="attrs"><span class="d-none">5kg</span><span>10kg</span><span class="d-none">25kg</span><span class="label-jumbo d-none">Jumbo</span></div>
                                         <p class="price retail"><!--₦8,000 – -->₦15,500</p>
                                         <p class="price wholesale"><!--₦7,500 - -->₦14,750</p>
-                                        <span class="badge badge-orange">Retail Price</span>
+                                        <div class="prod-stat">
+                                            <span class="badge badge-orange">Retail</span>
+                                            <span class="stock-badge in-stock">✅ In Stock</span>
+                                        </div>
                                     </div>
                                     <div class="call-to-act">
-                                        <a href="garri.html" class="btn btn-primary">View Options →</a>                               
+                                        <button type="submit" class="btn btn-green">Add to Cart</button>
+                                        <a href="garri.html" class="btn btn-primary d-none">View Options →</a>                               
                                     </div>
                                 </div>
                             </div>
@@ -330,13 +498,17 @@
                                 <div class="card-details">
                                     <div class="details">                            
                                         <h3 class="title">Nutragold Standard White Garri</h3>
-                                        <div class="attrs"><span>5kg</span><span>10kg</span><span>25kg</span><span class="label-jumbo d-none">Jumbo</span></div>
+                                        <div class="attrs"><span class="">5kg</span><span class="d-none">10kg</span><span class="d-none">25kg</span><span class="label-jumbo d-none">Jumbo</span></div>
                                         <p class="price retail">₦6,000<!-- – ₦19,000---></p>
                                         <p class="price wholesale">₦5,500<!-- – ₦17,500--></p>
-                                        <span class="badge badge-orange">Retail Price</span>
+                                        <div class="prod-stat">
+                                            <span class="badge badge-orange">Retail</span>
+                                            <span class="stock-badge in-stock">✅ In Stock</span>
+                                        </div>
                                     </div>
                                     <div class="call-to-act">
-                                        <a href="garri.html" class="btn btn-primary">View Options →</a>                               
+                                        <button type="submit" class="btn btn-green">Add to Cart</button>
+                                        <a href="garri.html" class="btn btn-primary d-none">View Options →</a>                               
                                     </div>
                                 </div>
                             </div>

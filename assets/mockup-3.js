@@ -21,6 +21,147 @@ window.getProductBySku = function(sku) {
 };
 
 // ============================================
+// STOCK MANAGEMENT & VARIATION SYNC CONTROLLER
+// ============================================
+(function() {
+
+    // Helper: Returns stock status metadata
+    window.getStockStatus = function(sku) {
+        const product = window.getProductBySku ? window.getProductBySku(sku) : (window.productCatalog[sku] || null);
+        if (!product) return { status: 'unknown', stock: 999, label: 'In Stock' };
+
+        const stock = parseInt(product.stock, 10);
+        if (isNaN(stock) || stock <= 0) {
+            return { status: 'out-of-stock', stock: 0, label: 'Out of Stock' };
+        } else if (stock <= 5) {
+            return { status: 'low-stock', stock: stock, label: `Only ${stock} left in stock!` };
+        } else {
+            return { status: 'in-stock', stock: stock, label: 'In Stock' };
+        }
+    };
+
+    // UI Synchronizer for a specific product card or detail section
+    window.updateProductStockUI = function(container) {
+        if (!container) return;
+
+        const baseSkuEl = container.querySelector('.sku');
+        const selectEl = container.querySelector('select#wholesale, select#retail, select');
+        const btn = container.querySelector('.qty-add .btn, .add-to-cart-btn');
+        const qtyInput = container.querySelector('input.qty-count, input[type="number"]');
+        const stockBadge = container.querySelector('.stock-badge, .badge-stock');
+
+        const baseSku = baseSkuEl ? baseSkuEl.textContent.replace(/^SKU:\s*/i, '').trim() : '';
+        const variationVal = selectEl ? selectEl.value : '';
+        const currentSku = variationVal ? `${baseSku}-${variationVal}` : baseSku;
+
+        const stockInfo = window.getStockStatus(currentSku);
+
+        // A. Update Stock Badge
+        if (stockBadge) {
+            stockBadge.textContent = stockInfo.label;
+            stockBadge.className = `stock-badge badge-${stockInfo.status}`;
+        }
+
+        // B. Update Quantity Input Maximum
+        if (qtyInput) {
+            if (stockInfo.stock > 0) {
+                qtyInput.removeAttribute('disabled');
+                qtyInput.max = stockInfo.stock;
+                if (parseInt(qtyInput.value, 10) > stockInfo.stock) {
+                    qtyInput.value = stockInfo.stock;
+                }
+            } else {
+                qtyInput.value = 0;
+                qtyInput.setAttribute('disabled', 'disabled');
+            }
+        }
+
+        // C. Enable / Disable Add-to-Cart Button
+        if (btn) {
+            if (stockInfo.status === 'out-of-stock') {
+                btn.disabled = true;
+                btn.classList.add('btn-out-of-stock');
+                btn.innerHTML = '❌ Out of Stock';
+            } else {
+                btn.disabled = false;
+                btn.classList.remove('btn-out-of-stock');
+                btn.innerHTML = '🛒 Add to Cart';
+            }
+        }
+    };
+
+    // Global Listener for Variation Dropdown Changes
+    document.addEventListener('change', function(e) {
+        if (e.target && e.target.matches('select')) {
+            const container = e.target.closest('.pdp-summary, .product-card');
+            if (container) {
+                window.updateProductStockUI(container);
+            }
+        }
+    });
+
+    // Initialize all cards on page load
+    function initStockUI() {
+        document.querySelectorAll('.pdp-summary, .product-card').forEach(container => {
+            window.updateProductStockUI(container);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initStockUI);
+    } else {
+        initStockUI();
+    }
+})();
+
+// ============================================
+// COLLAPSIBLE NOTICE BAR CONTROLLER
+// ============================================
+(function() {
+    function initNoticeBar() {
+        const noticeBar = document.getElementById('siteNoticeBar');
+        const closeBtn = document.getElementById('closeNoticeBtn');
+
+        if (!noticeBar || !closeBtn) return;
+
+        // Check if user previously dismissed the notice in this session
+        const isDismissed = sessionStorage.getItem('foodcart_notice_dismissed') === 'true';
+        
+        if (isDismissed) {
+            noticeBar.classList.add('collapsed');
+            noticeBar.style.display = 'none'; // Ensure no layout jump
+        }
+
+        closeBtn.addEventListener('click', function() {
+
+            // Add collapsed class for smooth CSS slide-up animation
+            noticeBar.classList.add('collapsed');
+            
+            // Save state so it stays hidden on page refreshes/navigation
+            sessionStorage.setItem('foodcart_notice_dismissed', 'true');
+
+            // Hide completely after transition finishes
+            setTimeout(() => {
+                noticeBar.style.display = 'none';
+            }, 300);
+
+        });
+
+    }
+
+    if (document.readyState === 'loading') {
+
+        document.addEventListener('DOMContentLoaded', initNoticeBar);
+
+    } else {
+
+        initNoticeBar();
+
+    }
+
+})();
+
+// ============================================
 // 2. MOBILE MENU TOGGLE
 // ============================================
 (function() {
@@ -139,31 +280,107 @@ window.getProductBySku = function(sku) {
 // 5. AUTH OVERLAY & VIEW MANAGER MODULE
 // ============================================
 (function() {
+    
+    // Shared state tracking for registration tab
+    let activeRegisterType = 'retail';
+
     function getOverlayElements() {
+
         return {
             backdrop: document.getElementById('authBackdrop') || document.querySelector('.auth-backdrop'),
             closeBtn: document.getElementById('authCloseBtn') || document.querySelector('.auth-close-btn'),
             content: document.getElementById('authContent') || document.querySelector('.auth-content')
         };
+
     }
 
     window.openAuthOverlay = function() {
+
         const { backdrop } = getOverlayElements();
         if (backdrop) {
             backdrop.classList.add('show');
             document.body.classList.add('no-scroll');
         }
+
     };
 
     window.closeAuthOverlay = function() {
+
         const { backdrop } = getOverlayElements();
         if (backdrop) {
             backdrop.classList.remove('show');
             document.body.classList.remove('no-scroll');
         }
+
     };
 
-    window.showAuthView = function(view, authStatus, businessName) {
+    // --------------------------------------------
+    // 5.1. REGISTRATION TAB TOGGLE ENGINE
+    // --------------------------------------------
+    window.switchRegisterType = function(type) {
+
+        activeRegisterType = type;
+        const tabCustomerBtn = document.getElementById('tabCustomerBtn');
+        const tabBusinessBtn = document.getElementById('tabBusinessBtn');
+        const b2bFieldsGroup = document.getElementById('b2bFieldsGroup');
+        const nameLabel = document.getElementById('nameLabel');
+        const regName = document.getElementById('regName');
+        const regSubmitBtn = document.getElementById('regSubmitBtn');
+
+        const isWholesale = (type === 'wholesale');
+
+    // 1. Toggle Tab Button Classes
+        if (tabBusinessBtn) {
+            tabBusinessBtn.classList.toggle('active', isWholesale);
+            tabBusinessBtn.classList.toggle('inactive', !isWholesale);
+        }
+
+        if (tabCustomerBtn) {
+            tabCustomerBtn.classList.toggle('active', !isWholesale);
+            tabCustomerBtn.classList.toggle('inactive', isWholesale);
+        }
+
+        // 2. Toggle B2B Field Visibility using .show / .hide
+        if (b2bFieldsGroup) {
+            b2bFieldsGroup.classList.toggle('show', isWholesale);
+            b2bFieldsGroup.classList.toggle('hide', !isWholesale);
+        }
+
+        // 3. Dynamic Labels & Placeholders
+        if (nameLabel) {
+            nameLabel.innerHTML = isWholesale 
+                ? 'Business / Store Name <span class="required">*</span>' 
+                : 'Full Name <span class="required">*</span>';
+        }
+
+        if (regName) {
+            regName.placeholder = isWholesale 
+                ? 'e.g. Al-Furqaan Groceries' 
+                : 'e.g. Adeola Johnson';
+        }
+
+        if (regSubmitBtn) {
+            regSubmitBtn.innerHTML = isWholesale 
+                ? 'Create Business Account' 
+                : '✅ Create Personal Account';
+        }
+
+        // 4. Toggle Required Attribute on Hidden Inputs (Prevents HTML5 focus validation errors)
+        if (regTin) {
+            if (isWholesale) {
+                regTin.setAttribute('required', 'required');
+            } else {
+                regTin.removeAttribute('required');
+            }
+        }
+
+    };
+
+    // --------------------------------------------
+    // 5.2. VIEW SWITCHER ENGINE
+    // --------------------------------------------
+    window.showAuthView = function(view, authStatus, userName, isWholesale = false) {
+
         const allViews = document.querySelectorAll('.auth-view');
         if (allViews.length === 0) return;
 
@@ -182,51 +399,121 @@ window.getProductBySku = function(sku) {
 
         const target = document.getElementById(viewMap[view]);
         if (target) {
+
             target.classList.remove('hide');
             target.classList.add('show');
+
         } else {
+
             return;
+
         }
 
+        // --- SUCCESS VIEW HANDLING & Dynamic Greetings ---
         if (view === 'success') {
+
+            //const isWholesale = (accountType === 'wholesale');
+
+            // Toggle Login vs Register success messages
             const loginEls = target.querySelectorAll('.login');
             const regEls = target.querySelectorAll('.register');
 
             loginEls.forEach(el => {
+
+                /*
                 if (authStatus === 'login') {
+
                     el.classList.remove('hide');
                     el.classList.add('show');
+
                 } else {
+
                     el.classList.remove('show');
                     el.classList.add('hide');
+
                 }
+                */
+               el.classList.toggle('show', authStatus === 'login');
+                el.classList.toggle('hide', authStatus !== 'login');
             });
 
             regEls.forEach(el => {
+
+                /*
                 if (authStatus === 'register') {
+
                     el.classList.remove('hide');
                     el.classList.add('show');
+
                 } else {
+
                     el.classList.remove('show');
                     el.classList.add('hide');
+
                 }
+                */
+
+                el.classList.toggle('show', authStatus === 'register');
+                el.classList.toggle('hide', authStatus !== 'register');
+
             });
 
-            if (businessName) {
-                target.querySelectorAll('#successBusinessName').forEach(el => {
-                    el.innerHTML = `Welcome, <strong>${businessName}</strong>!`;
+            /*
+            // Set dynamic welcome text
+            if (userName) {
+
+                target.querySelectorAll('#successBusinessName, .user-name-display').forEach(el => {
+                    el.innerHTML = `Welcome, <strong>${userName}</strong>!`;
                 });
+
             }
 
+            // Sync global wholesale or retail mode state
             if (typeof window.toggleWholesaleMode === 'function') {
-                window.toggleWholesaleMode(true, businessName);
+
+                window.toggleWholesaleMode(isWholesale, userName);
+
             }
+            */
+
+            // Update Success Modal Welcome Text
+            target.querySelectorAll('#successBusinessName, .user-name-display').forEach(el => {
+                const badge = isWholesale ? '🏢 Business Account' : '🛍️ Individual Account';
+                el.innerHTML = `Welcome, <strong>${userName}</strong>! <span style="font-size: 0.85rem; font-weight: normal; color: #64748b;">(${badge})</span>`;
+            });
+
+            // 3. EXECUTE MODE SWITCH (Branching Logic)
+            if (isWholesale) {
+                // Activate Wholesale/B2B Mode (bulk pricing, green badge, B2B hero)
+                if (typeof window.toggleWholesaleMode === 'function') {
+                    window.toggleWholesaleMode(true, userName);
+                }
+            } else {
+                // Activate Individual/Retail Mode (standard unit rates, retail hero)
+                if (typeof window.toggleWholesaleMode === 'function') {
+                    window.toggleWholesaleMode(false);
+                }
+                if (typeof window.setHeroView === 'function') {
+                    window.setHeroView('retail');
+                }
+            }
+
+            // 4. Update Header Nav & Greetings
+            if (typeof window.updateAuthUI === 'function') {
+                window.updateAuthUI(true, userName, accountType);
+            }
+
         }
 
         window.openAuthOverlay();
+
     };
 
+    // --------------------------------------------
+    // 5.3. ORDER STATUS MODALS
+    // --------------------------------------------
     window.showOrderSuccess = function(orderData) {
+
         orderData = orderData || {};
         const els = {
             number: document.getElementById('orderNumber'),
@@ -240,61 +527,145 @@ window.getProductBySku = function(sku) {
         if (els.total) els.total.textContent = orderData.total || '₦0';
         if (els.delivery) els.delivery.textContent = orderData.delivery || 'Express Delivery';
         if (els.eta) els.eta.textContent = orderData.eta || 'Today, 5:00 PM';
-        if (els.name) els.name.textContent = orderData.customerName || 'Retailer';
+        if (els.name) els.name.textContent = orderData.customerName || 'Customer';
 
         window.showAuthView('orderSuccess');
+
     };
 
     window.showOrderError = function(errorMessage) {
+
         const msgEl = document.getElementById('orderErrorMessage');
         if (msgEl) msgEl.textContent = errorMessage || 'Payment verification failed.';
         window.showAuthView('orderError');
+
     };
 
+    // --------------------------------------------
+    // 5.4. GLOBAL CLICK EVENT LISTENERS
+    // --------------------------------------------
     document.addEventListener('click', function(e) {
+
+        // Overlay close button handlers
         const closeBtn = e.target.closest('#authCloseBtn, .auth-close-btn');
         if (closeBtn) {
+
             window.closeAuthOverlay();
             return;
+
         }
 
+        // Backdrop click handler
         const backdrop = e.target;
         if (backdrop && backdrop.id === 'authBackdrop') {
             window.closeAuthOverlay();
             return;
         }
 
+        // Auth links / View Switch buttons
         const link = e.target.closest('a[href*="login"], a[href*="register"], .login-btn, .register-btn, .switch-view, [data-auth="login"], [data-auth="register"]');
         if (link) {
+
             e.preventDefault();
             let view = link.dataset.view || link.dataset.auth;
 
             if (!view) {
+
                 const href = link.getAttribute('href') || '';
                 view = href.includes('login') ? 'login' : href.includes('register') ? 'register' : null;
+                
             }
 
             if (view) window.showAuthView(view);
+
         }
+
     });
 
+    // --------------------------------------------
+    // 5.5. FORM SUBMISSION EVENT LISTENERS
+    // --------------------------------------------
     document.addEventListener('submit', function(e) {
-        if (e.target.id === 'auth-login-form') {
+                    
+        // ============================================
+        // 1. LOGIN FORM SUBMISSION
+        // ============================================
+        if (e.target && (e.target.id === 'auth-login-form' || e.target.closest('#auth-login-form'))) {
+            
             e.preventDefault();
-            window.showAuthView('success', 'login', 'Adeola Foods');
-        } else if (e.target.id === 'auth-register-form') {
+            const form = e.target.id === 'auth-login-form' ? e.target : e.target.closest('#auth-login-form');
+            
+            // Grab username or email input
+            const identityInput = document.getElementById('loginIdentity') || form.querySelector('input[type="text"], input[type="email"]');
+            const identityVal = identityInput ? identityInput.value.trim() : '';
+            
+            // Read selected radio value ("retail" or "wholesale")
+            const selectedTypeRadio = form.querySelector('input[name="loginType"]:checked');
+            const accountType = selectedTypeRadio ? selectedTypeRadio.value : 'retail'; 
+
+            // Extract a clean display name (e.g. "john" from "john@gmail.com")
+            let name = identityVal.split('@')[0] || 'Customer';
+            name = name.charAt(0).toUpperCase() + name.slice(1);
+
+            // 1. Store session data in browser storage
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userName', name);
+            localStorage.setItem('accountType', accountType);
+
+            // 2. IMMEDIATE UI SYNC (Forces the whole site header, badges, and state to update right now)
+            if (typeof window.updateAuthUI === 'function') {
+                window.updateAuthUI(true, name, accountType);
+            }
+
+            // 3. Show Success Modal View
+            if (typeof window.showAuthView === 'function') {
+                window.showAuthView('success', 'login', name, accountType);
+            }
+
+        } 
+
+        // ============================================
+        // 2. REGISTER FORM SUBMISSION
+        // ============================================
+        else if (e.target && (e.target.id === 'auth-register-form' || e.target.closest('#auth-register-form'))) {
+            
             e.preventDefault();
-            const input = e.target.querySelector('input[placeholder*="Business Name"]');
-            const name = input && input.value.trim() ? input.value.trim() : 'Retailer';
-            window.showAuthView('success', 'register', name);
+
+            const form = e.target.id === 'auth-register-form' ? e.target : e.target.closest('#auth-register-form');
+            
+            // Read registered name input
+            const nameInput = document.getElementById('regName') || form.querySelector('input[placeholder*="Name"]');
+            const name = nameInput && nameInput.value.trim() ? nameInput.value.trim() : 'Customer';
+            
+            // Use active tab state ('retail' or 'wholesale')
+            const accountType = (typeof activeRegisterType !== 'undefined' && activeRegisterType) ? activeRegisterType : 'retail';
+
+            // 1. Store session data in browser storage
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userName', name);
+            localStorage.setItem('accountType', accountType);
+
+            // 2. IMMEDIATE UI SYNC
+            if (typeof window.updateAuthUI === 'function') {
+                window.updateAuthUI(true, name, accountType);
+            }
+
+            // 3. Show Success Modal View
+            if (typeof window.showAuthView === 'function') {
+                window.showAuthView('success', 'register', name, accountType);
+            }
+
         }
+
     });
+
 })();
 
 // ============================================
 // 6. SUCCESS & ORDER HANDLERS
 // ============================================
 (function() {
+
     window.handleSuccessStartShopping = function() {
         if (typeof window.closeAuthOverlay === 'function') window.closeAuthOverlay();
         window.location.href = 'shop.html';
@@ -346,79 +717,309 @@ window.getProductBySku = function(sku) {
         if (typeof window.closeAuthOverlay === 'function') window.closeAuthOverlay();
         window.location.href = 'cart.html';
     };
+
 })();
 
 // ============================================
-// 7. WHOLESALE MODE CONTROLLER
+// 7. UNIFIED AUTHENTICATION & UI CONTROLLER
 // ============================================
 (function() {
-    let isWholesale = localStorage.getItem('wholesaleMode') === 'true';
 
-    window.isWholesaleActive = function() {
-        return isWholesale;
+    // --------------------------------------------
+    // 7.1. STATE READERS & GETTERS
+    // --------------------------------------------
+    window.getAuthState = function() {
+        return {
+            isLoggedIn: localStorage.getItem('isLoggedIn') === 'true',
+            userName: localStorage.getItem('userName') || 'Guest',
+            accountType: localStorage.getItem('accountType') || 'retail' // 'retail' or 'wholesale'
+        };
     };
 
-    window.toggleWholesaleMode = function(enable, businessName) {
-        isWholesale = Boolean(enable);
+    window.isWholesaleActive = function() {
+        const state = window.getAuthState();
+        return state.isLoggedIn && state.accountType === 'wholesale';
+    };
 
-        document.body.classList.toggle('wholesale-mode-active', isWholesale);
-
-        document.querySelectorAll('.badge-orange, .badge-green').forEach(el => {
-            el.textContent = isWholesale ? 'Wholesale Price' : 'Retail Price';
-            if (isWholesale) {
-                el.classList.remove('badge-orange');
-                el.classList.add('badge-green');
-            } else {
-                el.classList.remove('badge-green');
-                el.classList.add('badge-orange');
-            }
+    // --------------------------------------------
+    // 7.2. HERO VIEW CONTROLLER (.show / .hide)
+    // --------------------------------------------
+    window.setHeroView = function(mode) {
+        // Mode options: 'guest', 'retail', 'wholesale'
+        const views = document.querySelectorAll('.hero-view');
+        views.forEach(view => {
+            view.classList.remove('show');
+            view.classList.add('hide');
         });
 
-        const name = businessName || localStorage.getItem('businessName') || 'Retailer';
-        const businessNameDisplay = document.getElementById('businessNameDisplay');
-        if (businessNameDisplay) {
-            businessNameDisplay.textContent = isWholesale ? name : 'Retailer';
+        const targetView = document.getElementById(`hero-${mode}-view`);
+        if (targetView) {
+            targetView.classList.remove('hide');
+            targetView.classList.add('show');
         }
+    };
 
-        if (isWholesale) {
-            localStorage.setItem('wholesaleMode', 'true');
-            localStorage.setItem('businessName', name);
+    // --------------------------------------------
+    // 7.3. HEADER NAV & UI SYNCHRONIZER (WITH PERSISTENCE)
+    // --------------------------------------------
+    window.updateAuthUI = function(isLoggedIn, userName, accountType) {
+        const userProfileEl = document.getElementById('user-profile');
+        const logoutDisplayEl = document.getElementById('logoutDisplay');
+        const nameDisplays = document.querySelectorAll('.header-user-display');
+        const pillText = document.getElementById('pillPricingText');
+        const pricingPill = document.getElementById('pricing-status-pill');
+        const userBadgeWrapper = document.getElementById('userBadgeWrapper');
+
+        const loggedIn = String(isLoggedIn) === 'true';
+        const isWholesale = (accountType === 'wholesale');
+        const name = userName && userName !== 'null' && userName !== 'undefined' ? userName : 'Customer';
+
+        if (loggedIn) {
+            // 🛑 CRITICAL FIX: Save state directly into LocalStorage whenever updated
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userName', name);
+            localStorage.setItem('accountType', isWholesale ? 'wholesale' : 'retail');
+            if (isWholesale) {
+                localStorage.setItem('wholesaleMode', 'true');
+                localStorage.setItem('businessName', name);
+            } else {
+                localStorage.removeItem('wholesaleMode');
+                localStorage.removeItem('businessName');
+            }
+
+            // A. Toggle Header Nav (.show / .hide)
+            if (userProfileEl) {
+                userProfileEl.classList.remove('show');
+                userProfileEl.classList.add('hide');
+            }
+            if (logoutDisplayEl) {
+                logoutDisplayEl.classList.remove('hide');
+                logoutDisplayEl.classList.add('show');
+            }
+
+            // B. Update Name in all Header Targets
+            nameDisplays.forEach(el => {
+                el.textContent = name;
+            });
+
+            // C. Update Pricing Pill & User Badges
+            if (isWholesale) {
+                if (pillText) pillText.textContent = 'Wholesale';
+                if (pricingPill) {
+                    pricingPill.classList.remove('retail');
+                    pricingPill.classList.add('wholesale');
+                }
+                if (userBadgeWrapper) {
+                    userBadgeWrapper.classList.remove('retail');
+                    userBadgeWrapper.classList.add('wholesale');
+                }
+            } else {
+                if (pillText) pillText.textContent = 'Retail';
+                if (pricingPill) {
+                    pricingPill.classList.remove('wholesale');
+                    pricingPill.classList.add('retail');
+                }
+                if (userBadgeWrapper) {
+                    userBadgeWrapper.classList.remove('wholesale');
+                    userBadgeWrapper.classList.add('retail');
+                }
+            }
+
+            // D. Body Class Toggle
+            document.body.classList.toggle('wholesale-mode-active', isWholesale);
+
+            // E. Update Product Price Badges
+            document.querySelectorAll('.badge-orange, .badge-green').forEach(el => {
+                el.textContent = isWholesale ? 'Wholesale' : 'Retail';
+                el.classList.toggle('badge-green', isWholesale);
+                el.classList.toggle('badge-orange', !isWholesale);
+            });
+
+            // F. Sync Hero Section
+            if (typeof window.setHeroView === 'function') {
+                window.setHeroView(isWholesale ? 'wholesale' : 'retail');
+            }
+
         } else {
-            localStorage.removeItem('wholesaleMode');
-            localStorage.removeItem('businessName');
+            // Guest / Logged Out Mode
+            if (userProfileEl) {
+                userProfileEl.classList.remove('hide');
+                userProfileEl.classList.add('show');
+            }
+            if (logoutDisplayEl) {
+                logoutDisplayEl.classList.remove('show');
+                logoutDisplayEl.classList.add('hide');
+            }
+
+            if (pillText) pillText.textContent = 'Retail';
+            if (pricingPill) {
+                pricingPill.classList.remove('wholesale');
+                pricingPill.classList.add('retail');
+            }
+
+            document.body.classList.remove('wholesale-mode-active');
+
+            document.querySelectorAll('.badge-orange, .badge-green').forEach(el => {
+                el.textContent = 'Retail';
+                el.classList.remove('badge-green');
+                el.classList.add('badge-orange');
+            });
+
+            if (typeof window.setHeroView === 'function') {
+                window.setHeroView('guest');
+            }
         }
 
-        document.dispatchEvent(new CustomEvent('wholesaleModeChanged', {
-            detail: { enabled: isWholesale, businessName: name }
+        // Broadcast Custom Event for Cart and external modules
+        document.dispatchEvent(new CustomEvent('authStateChanged', {
+            detail: { isLoggedIn: loggedIn, userName: name, accountType: isWholesale ? 'wholesale' : 'retail' }
         }));
     };
 
-    window.handleLogout = function() {
-        window.toggleWholesaleMode(false);
-        if (typeof window.closeAuthOverlay === 'function') window.closeAuthOverlay();
-        window.location.reload();
+    // Backward Compatibility Wrapper
+    window.toggleWholesaleMode = function(enable, businessName) {
+        const name = businessName || localStorage.getItem('userName') || 'Customer';
+        const type = enable ? 'wholesale' : 'retail';
+        window.updateAuthUI(true, name, type);
     };
 
-    function applyStateOnLoad() {
-        if (localStorage.getItem('wholesaleMode') === 'true') {
-            const name = localStorage.getItem('businessName') || 'Retailer';
-            window.toggleWholesaleMode(true, name);
+    // --------------------------------------------
+    // 7.4. LOGOUT HANDLER
+    // --------------------------------------------
+    window.handleLogout = function() {
+        // Clear Storage Completely
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('accountType');
+        localStorage.removeItem('wholesaleMode');
+        localStorage.removeItem('businessName');
+
+        // Reset UI
+        window.updateAuthUI(false);
+
+        if (typeof window.closeAuthOverlay === 'function') {
+            window.closeAuthOverlay();
+        }
+
+        alert('You have logged out successfully.');
+    };
+
+    // --------------------------------------------
+    // 7.5. VIEW SWITCHER & MODAL CONTROLLER
+    // --------------------------------------------
+    window.showAuthView = function(view, authStatus, userName, accountType) {
+        const allViews = document.querySelectorAll('.auth-view');
+        if (allViews.length === 0) return;
+
+        allViews.forEach(el => {
+            el.classList.remove('show');
+            el.classList.add('hide');
+        });
+
+        const viewMap = {
+            login: 'authViewLogin',
+            register: 'authViewRegister',
+            success: 'authViewSuccess'
+        };
+
+        const target = document.getElementById(viewMap[view]);
+        if (!target) return;
+
+        target.classList.remove('hide');
+        target.classList.add('show');
+
+        // Handle Success Modal Customization
+        if (view === 'success') {
+            const isWholesale = (accountType === 'wholesale');
+
+            target.querySelectorAll('.login').forEach(el => {
+                el.classList.toggle('show', authStatus === 'login');
+                el.classList.toggle('hide', authStatus !== 'login');
+            });
+
+            target.querySelectorAll('.register').forEach(el => {
+                el.classList.toggle('show', authStatus === 'register');
+                el.classList.toggle('hide', authStatus !== 'register');
+            });
+
+            target.querySelectorAll('#successBusinessName, .user-name-display').forEach(el => {
+                const badge = isWholesale ? '🏢 Business Account' : '🛍️ Individual Account';
+                el.innerHTML = `Welcome, <strong>${userName}</strong>! <span style="font-size: 0.85rem; color: #64748b;">(${badge})</span>`;
+            });
+
+            // Update UI & Persist Session globally
+            window.updateAuthUI(true, userName, accountType);
+        }
+
+        if (typeof window.openAuthOverlay === 'function') {
+            window.openAuthOverlay();
+        }
+    };
+
+    // --------------------------------------------
+    // 7.6. GLOBAL EVENT DELEGATION
+    // --------------------------------------------
+    document.addEventListener('click', function(e) {
+        if (e.target && (e.target.id === 'logoutBtn' || e.target.classList.contains('logout-button'))) {
+            e.preventDefault();
+            window.handleLogout();
+        }
+    });
+
+    // --------------------------------------------
+    // 7.7. ROBUST INITIALIZER ON PAGE LOAD
+    // --------------------------------------------
+    function initializeAuthOnLoad() {
+
+        console.log("🔍 Checking Auth on Page Load...");
+
+        const rawLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const rawUserName = localStorage.getItem('userName');
+        const rawAccountType = localStorage.getItem('accountType');
+
+        console.log("Storage Values Found:", { rawLoggedIn, rawUserName, rawAccountType });
+
+        // Check legacy keys
+        const legacyWholesale = localStorage.getItem('wholesaleMode') === 'true';
+        const legacyName = localStorage.getItem('businessName');
+
+        let isLoggedIn = rawLoggedIn;
+        let userName = rawUserName;
+        let accountType = rawAccountType;
+
+        // Migrations / Fallbacks
+        if (!isLoggedIn && legacyWholesale) {
+            console.log("✅ User is logged in! Attempting to update UI...");
+            isLoggedIn = true;
+            accountType = 'wholesale';
+            userName = legacyName || 'Retailer';
+        }
+
+        if (isLoggedIn) {
+            if (!accountType) accountType = legacyWholesale ? 'wholesale' : 'retail';
+            if (!userName || userName === 'null') userName = legacyName || 'Customer';
+            
+            // Re-apply and re-persist to guarantee fresh state
+            window.updateAuthUI(true, userName, accountType);
         } else {
-            window.toggleWholesaleMode(false);
+            console.log("❌ User is NOT logged in according to localStorage.");
+            window.updateAuthUI(false);
         }
     }
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', applyStateOnLoad);
+        document.addEventListener('DOMContentLoaded', initializeAuthOnLoad);
     } else {
-        applyStateOnLoad();
+        initializeAuthOnLoad();
     }
+
 })();
 
 // ============================================
-// CART MANAGEMENT MODULE (COMPLETE & FIXED)
+// 8. CART MANAGEMENT MODULE (COMPLETE & FIXED)
 // ============================================
 (function() {
+
     let cart = [];
 
     // Helper: Safe evaluation of wholesale mode
@@ -470,12 +1071,14 @@ window.getProductBySku = function(sku) {
     };
 
     window.getCartTotal = function() {
+
         loadCart();
         const isWholesale = isWholesaleActiveSafe();
         return cart.reduce((total, item) => {
             const price = isWholesale ? (item.wholesalePrice || item.retailPrice) : item.retailPrice;
             return total + (price * item.quantity);
         }, 0);
+
     };
 
     window.addToCart = function(sku, name, retailPrice, wholesalePrice, quantity, image) {
@@ -484,27 +1087,37 @@ window.getProductBySku = function(sku) {
         const existing = cart.find(i => i.sku === sku);
 
         if (existing) {
+
             existing.quantity += quantity;
+
         } else {
+
             cart.push({
+
                 sku: sku,
                 name: name,
                 retailPrice: parseFloat(retailPrice) || 0,
                 wholesalePrice: parseFloat(wholesalePrice || retailPrice) || 0,
                 quantity: quantity,
                 image: image || ''
+
             });
+
         }
         saveCart();
+
     };
 
     window.removeFromCart = function(sku) {
+
         loadCart();
         cart = cart.filter(i => i.sku !== sku);
         saveCart();
+
     };
 
     window.updateCartQuantity = function(sku, quantity) {
+
         loadCart();
         const qty = parseInt(quantity, 10);
         if (isNaN(qty) || qty <= 0) {
@@ -517,17 +1130,21 @@ window.getProductBySku = function(sku) {
             item.quantity = qty;
             saveCart();
         }
+
     };
 
     window.clearCart = function() {
+
         cart = [];
         saveCart();
+
     };
 
     // --- UI Synchronizers ---
 
     // Badges update
     function updateCartBadge() {
+
         const count = window.getCartCount();
         const badges = document.querySelectorAll('.cart-badge');
 
@@ -546,10 +1163,12 @@ window.getProductBySku = function(sku) {
                 badge.classList.add('bg-amber');
             }
         });
+
     }
 
     // Mini-Cart update
     function updateMiniCart() {
+
         const miniCartItems = document.querySelectorAll('.mini-cart-items, #mini-cart-list');
         const miniCartTotal = document.querySelectorAll('.mini-cart-total, #mini-cart-subtotal');
         const items = window.getCart();
@@ -1015,5 +1634,64 @@ document.addEventListener('click', function(e) {
         document.addEventListener('DOMContentLoaded', initCheckout);
     } else {
         initCheckout();
+    }
+})();
+
+// Add to the bottom of your script to force persistence re-check:
+window.addEventListener('pageshow', function (event) {
+    if (typeof window.updateAuthUI === 'function') {
+        const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const name = localStorage.getItem('userName') || 'Customer';
+        const type = localStorage.getItem('accountType') || 'retail';
+        
+        if (loggedIn) {
+            window.updateAuthUI(true, name, type);
+        }
+    }
+});
+
+// Add to the bottom of your script to force persistence re-check:
+window.addEventListener('pageshow', function (event) {
+    if (typeof window.updateAuthUI === 'function') {
+        const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const name = localStorage.getItem('userName') || 'Customer';
+        const type = localStorage.getItem('accountType') || 'retail';
+        
+        if (loggedIn) {
+            window.updateAuthUI(true, name, type);
+        }
+    }
+});
+
+// ============================================
+// BACK TO TOP CONTROLLER
+// ============================================
+(function() {
+    function initBackToTop() {
+        const topBtn = document.getElementById('backToTopBtn');
+        if (!topBtn) return;
+
+        // Toggle visibility based on scroll depth
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                topBtn.classList.add('show');
+            } else {
+                topBtn.classList.remove('show');
+            }
+        });
+
+        // Smooth scroll to top on click
+        topBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initBackToTop);
+    } else {
+        initBackToTop();
     }
 })();

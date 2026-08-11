@@ -1037,7 +1037,7 @@
 
             cartBadge.textContent = enable ? 'W' : '2';
             cartBadge.style.background = enable ? '#16a34a' : '#f59e0b';
-            
+
         }
 
         // Update hero tags
@@ -1141,6 +1141,177 @@
     console.log('👉 Use toggleWholesaleMode(true/false, "BusinessName") to control it.');
 
 })();
+
+/*
+(function() {
+    console.log('🔍 Wholesale mode controller loading...');
+
+    let isWholesale = false;
+
+    function getElements() {
+        return {
+            logoutDisplay: document.getElementById('logoutDisplay'),
+            businessNameDisplay: document.getElementById('businessNameDisplay'),
+            logoutBtn: document.getElementById('logoutBtn'),
+            profile: document.getElementById('user-profile')
+        };
+    }
+
+    window.handleLogout = function() {
+        console.log('🔓 Logout called.');
+        if (typeof window.toggleWholesaleMode === 'function') {
+            window.toggleWholesaleMode(false);
+        }
+        const profile = document.getElementById('user-profile');
+        if (profile) profile.style.display = 'block';
+        if (typeof window.closeAuthOverlay === 'function') {
+            window.closeAuthOverlay();
+        }
+        console.log('✅ Logout complete – retail mode restored.');
+    };
+
+    // ---- Toggle wholesale mode ----
+    window.toggleWholesaleMode = function(enable, businessName) {
+
+        isWholesale = !!enable;
+
+        console.log(`🔄 ${enable ? 'ENABLING' : 'DISABLING'} wholesale mode...`);
+
+        const els = getElements();
+
+        // 1. Toggle price & unit displays
+        document.querySelectorAll('.price.retail, .wholesale-prompt, .proposition-cta, .proposition-divider, .select.retail, .variant-unit-price.retail, .qty-count.retail, .stock-retail, .delivery-note.retail')
+            .forEach(el => el.style.display = enable ? 'none' : 'flex');
+
+        document.querySelectorAll('.price.wholesale, select.wholesale, .variant-unit-price.wholesale, .qty-count.wholesale, .stock-wholesale, .moq, .delivery-note.wholesale')
+            .forEach(el => el.style.display = enable ? 'flex' : 'none');
+
+        // 2. Toggle badges
+        document.querySelectorAll('.badge-orange').forEach(el => {
+            el.textContent = enable ? 'Wholesale Price' : 'Retail Price';
+            el.className = enable ? 'badge-green' : 'badge-orange';
+        });
+
+        // 3. Toggle account header displays
+        if (els.logoutDisplay) {
+            els.logoutDisplay.style.display = enable ? 'flex' : 'none';
+        }
+
+        if (els.profile) {
+            els.profile.style.display = enable ? 'none' : 'block';
+        }
+
+        // 4. Update Hero View Container State cleanly
+        if (typeof window.setHeroView === 'function') {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true' || enable;
+            if (!isLoggedIn) {
+                window.setHeroView('guest');
+            } else if (enable) {
+                window.setHeroView('wholesale');
+            } else {
+                window.setHeroView('retail');
+            }
+        }
+
+        // 5. Update business name
+        if (enable && els.businessNameDisplay) {
+            const name = businessName || localStorage.getItem('businessName') || 'Retailer';
+            els.businessNameDisplay.textContent = name;
+        } else if (!enable && els.businessNameDisplay) {
+            els.businessNameDisplay.textContent = 'Retailer';
+        }
+
+        // 6. Store state locally
+        if (enable) {
+            localStorage.setItem('wholesaleMode', 'true');
+            if (businessName) localStorage.setItem('businessName', businessName);
+        } else {
+            localStorage.removeItem('wholesaleMode');
+            localStorage.removeItem('businessName');
+        }
+
+        // 7. Dispatch event for cart badge and other subscriber modules
+        document.dispatchEvent(new CustomEvent('wholesaleModeChanged', {
+            detail: { enabled: enable, businessName: businessName || '' }
+        }));
+
+        console.log(`✅ Switched to ${enable ? 'WHOLESALE' : 'RETAIL'} mode.`);
+    };
+
+    // ---- Restore wholesale mode from localStorage ----
+    if (localStorage.getItem('wholesaleMode') === 'true') {
+        const name = localStorage.getItem('businessName') || 'Retailer';
+        function applyRestore() {
+            const els = getElements();
+            if (els.businessNameDisplay) {
+                els.businessNameDisplay.textContent = name;
+                window.toggleWholesaleMode(true, name);
+                console.log('✅ Restored wholesale mode from localStorage.');
+            } else {
+                console.log('⏳ Waiting for header to be injected...');
+                setTimeout(applyRestore, 200);
+            }
+        }
+        applyRestore();
+    }
+
+    // ---- Attach logout listener ----
+    function attachLogoutListener() {
+        const els = getElements();
+        if (els.logoutBtn && !els.logoutBtn._listenerAttached) {
+            els.logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('🔓 Logout button clicked.');
+                window.toggleWholesaleMode(false);
+                const profile = document.getElementById('user-profile');
+                if (profile) profile.style.display = 'block';
+                if (typeof window.closeAuthOverlay === 'function') {
+                    window.closeAuthOverlay();
+                }
+                window.location.reload();
+            });
+            els.logoutBtn._listenerAttached = true;
+            console.log('✅ Logout button handler attached.');
+            return true;
+        }
+        return false;
+    }
+
+    if (!attachLogoutListener()) {
+        const observer = new MutationObserver(function() {
+            if (attachLogoutListener()) {
+                observer.disconnect();
+            }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+        console.log('👀 Watching for logout button to appear...');
+    }
+
+    // Global Safe State Getter
+    window.isWholesaleActive = function() {
+        return isWholesale;
+    };
+
+    console.log('✅ Wholesale mode controller ready.');
+    console.log('👉 Use toggleWholesaleMode(true/false, "BusinessName") to control it.');
+})();
+*/
+
+window.setHeroView = function(mode) {
+    // Hide all hero views first
+    const views = document.querySelectorAll('.hero-view');
+    views.forEach(view => {
+        view.classList.remove('show');
+        view.classList.add('hide');
+    });
+
+    // Show only the targeted view container
+    const targetView = document.getElementById(`hero-${mode}-view`);
+    if (targetView) {
+        targetView.classList.remove('hide');
+        targetView.classList.add('show');
+    }
+};
 
 // ============================================
 // 10. CHECKOUT VALIDATION & ORDER TRIGGER (Direct Activation)
