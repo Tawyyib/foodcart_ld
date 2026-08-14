@@ -27,11 +27,14 @@
                      <div class="site-branding">
                     
                         <!-- 1. Brand Logo -->
-                        <a href="index.html" class="logo" title="Home" alt="Home">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" class="logo-icon" stroke="currentColor" width="34.0583mm" height="34.1244mm" viewBox="0 0 1184.88 1187.18" >
-                                <path d="M1093.5 1012.74c48.17,0 87.24,39.05 87.24,87.22 0,48.19 -39.07,87.22 -87.24,87.22 -48.2,0 -87.24,-39.04 -87.24,-87.22 0,-48.17 39.04,-87.22 87.24,-87.22zm-602.27 -22.88c54.46,0 98.66,44.17 98.66,98.67 0,54.47 -44.2,98.65 -98.66,98.65 -54.49,0 -98.67,-44.18 -98.67,-98.65 0,-54.5 44.18,-98.67 98.67,-98.67zm-291.42 -728.94l0 0 251.25 635.51 700.74 27.46 -8.6 -80.54 -614.11 -31.87 -65.14 -198.46 668.04 0.02 52.89 -431.07 0 -24.83 -922.87 -73.25c-0.86,-3.75 -2.27,-7.17 -2.67,-6.23l-9.58 -15.35c-2.85,-5.84 -5.87,-14.75 -8.29,-21.24 -5.03,-13.43 -11.44,-29.78 -17.27,-40.93l-224.21 -0.15 0 108.55 139.68 0.28 31.22 78.98 20.3 51.35 8.6 21.77zm129.39 -33.41l-20.35 -56.99 -0.81 -2.36 278.22 22.23 -0.02 179.98 -203.36 0 -53.68 -142.87zm514.06 -17.71l-228.72 -18.16 0 179.97 228.72 0 0 -161.81zm28.29 2.24l227.46 18.05 -16.27 140.29 -211.19 0.01 0 -158.35zm0 191.46l208.95 -0.01 -16.95 146.06 -192 0.01 0 -146.07zm-257.01 -0.01l228.72 0 0 146.06 -228.72 0 0 -146.06zm-28.28 0l-196.01 0 55.53 146.08 140.48 -0.01 0 -146.06z"/>
+                        <a href="index.html" class="logo" title="Home" aria-label="GreenCart Stores">
+
+                            <svg class="logo-mark" aria-hidden="true">
+                                <use class="use-full" href="assets/greencarts.svg#logo-full"></use>
+                                <use class="use-compact" href="assets/greencarts.svg#logo-compact"></use>
+                                <use class="use-lone" href="assets/greencarts.svg#logo-lone"></use>
                             </svg>
-                            <span class="logo-text">Greencart™ Stores</span>
+  
                         </a>
 
                         <!-- Dynamic Wholesale Status Badge -->
@@ -41,10 +44,19 @@
                         </div>
 
                      </div>
+                                    
+                    <!-- 2. Primary Navigation -->
+                    <div class="nav-bar">
 
+                        <nav id="primary-nav" class="nav-links">
+                            <div class="nav-link"><a href="shop.html">Catalog</a></div>
+                            <div class="nav-link"><a href="contact.html">Contact</a></div>
+                        </nav>
 
-                    <!-- Central Search Bar -->
-                    <div class="header-search">
+                    </div>                    
+
+                    <!-- 3. Central Search Bar -->
+                    <div class="search-bar">
                         <form action="shop.html" method="GET" class="search-form">
                             <input 
                                 type="text" 
@@ -55,61 +67,55 @@
                             <button type="submit" aria-label="Search">🔍</button>
                         </form>
                     </div>
-                                    
-                    <div class="navbar">
 
-                        <!-- 1. Primary Navigation -->
-                        <nav id="primary-nav" class="nav-links">
-                            <div class="nav-link"><a href="shop.html">Store</a></div>
-                            <div class="nav-link"><a href="contact.html">Contact Us</a></div>
-                        </nav>
+                    <!-- 4. Header Action Utilities -->
+                    <div class="header-buttons">
 
+                        <!-- LOGGED-OUT STATE: Login / Register Dropdown -->
+                        <div id="user-profile" class="profile-link">
 
-                        <!-- 2. Header Action Utilities -->
-                        <div class="header-buttons">
+                            <button type="button" class="profile-toggle" aria-haspopup="true">
+                                <span class="profile-btn-text">Login</span>
+                                <picture class="user-avatar-small">👤</picture>
+                            </button>
 
-                            <!-- LOGGED-OUT STATE: Login / Register Dropdown -->
-                            <div id="user-profile" class="profile-link">
-                                <button type="button" class="profile-toggle" aria-haspopup="true">
-                                    <span class="profile-btn-text">Login</span>
-                                    <picture class="user-avatar-small">👤</picture>
-                                </button>
-                                <div class="profile-tabs">
-                                    <a id="simulateLoginBtn" href="login.html" class="login-btn" data-auth="login">Login</a>
-                                    <a id="simulateRegisterBtn" href="register.html" class="register-btn" data-auth="register">Register</a>
-                                </div>
+                            <div class="profile-tabs">
+                                <a id="simulateLoginBtn" href="login.html" class="login-btn" data-auth="login">Login</a>
+                                <a id="simulateRegisterBtn" href="register.html" class="register-btn" data-auth="register">Register</a>
                             </div>
-
-                            <!-- LOGGED-IN STATE: Account & Logout Display -->
-                            <div id="logoutDisplay" class="logout-span hide">
-                                <div class="user-greeting">
-                                    <span class="greeting-prefix">Hello,</span> 
-                                    <div id="userBadgeWrapper" class="user-badge retail">
-                                        <span class="user-name header-user-display">Adeola</span>
-                                        <picture class="user-avatar-small">👤</picture>
-                                    </div>
-                                </div>
-
-                                <div class="logout-tooltip">
-                                    <picture class="user-avatar">👤</picture>
-                                    <div class="user-id">
-                                        <span class="user-name header-user-display">Adeola</span>
-                                        <a href="#" id="logoutBtn" class="logout-button" title="Log out">Log Out</a>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Cart Icon & Badge -->
-                            <a href="cart.html" class="cart-btn" title="View Cart">
-                                🛒 <span class="cart-badge bg-amber">0</span>
-                            </a>
-
-                            <!-- Mobile Hamburger Toggle Button -->
-                            <button id="mobileToggle" class="mobile-toggle" aria-label="Toggle Navigation">☰</button>
 
                         </div>
 
-                    </div>                    
+                        <!-- LOGGED-IN STATE: Account & Logout Display -->
+                        <div id="logoutDisplay" class="logout-span hide">
+
+                            <div class="user-greeting">
+                                <span class="greeting-prefix">Hi,</span> 
+                                <div id="userBadgeWrapper" class="user-badge retail">
+                                    <span class="user-name header-user-display">Adeola</span>
+                                    <picture class="user-avatar-small">👤</picture>
+                                </div>
+                            </div>
+
+                            <div class="logout-tooltip">
+                                <picture class="user-avatar">👤</picture>
+                                <div class="user-id">
+                                    <span class="user-name header-user-display">Adeola</span>
+                                    <a href="#" id="logoutBtn" class="logout-button" title="Log out">Log Out</a>
+                                </div>
+                            </div>
+
+                        </div>
+                            
+                        <!-- Cart Icon & Badge -->
+                        <a href="cart.html" class="cart-btn" title="View Cart">
+                            🛒 <span class="cart-badge bg-amber">0</span>
+                        </a>
+
+                        <!-- Mobile Hamburger Toggle Button -->
+                        <button id="mobileToggle" class="mobile-toggle" aria-label="Toggle Navigation">☰</button>
+
+                    </div>
 
                 </div>
 

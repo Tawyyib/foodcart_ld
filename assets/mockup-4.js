@@ -175,7 +175,7 @@ window.getProductBySku = function(sku) {
 
         document.addEventListener('click', function(e) {
             const toggleBtn = e.target.closest('#mobileToggle');
-            const nav = document.querySelector('.nav-links');
+            const nav = document.querySelector('.nav-bar');
 
             if (toggleBtn && nav) {
                 nav.classList.toggle('active');
