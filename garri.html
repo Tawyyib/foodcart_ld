@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Foodcart Stores – Interactive Mockup</title>
         <link rel="stylesheet" href="assets/mockup.css?v=2">
-        <script src="assets/mockup-3.js?v=2"></script>    
+        <script src="assets/mockup-4.js?v=2"></script>    
     </head>
 
     <div id="header-placeholder" class=" sticky-top"></div>
@@ -15,162 +15,169 @@
             <!-- ============================================ -->
             <!-- PAGE: PRODUCT DETAIL (PDP) -->
             <!-- ============================================ -->
-            <section class="main-content">
+            <section class="page-content page-pdp">
 
                 <div class="main-content-inner container">
 
-                    <div class="pdp-grid">
+                    <div class="pdp-main">
+                                
+                        <!-- Mobile Title -->
+                        <h2 class="mobile-title">Nutragold Crunchy White Garri</h2>
 
-                        <!-- Gallery -->
-                        <div class="pdp-gallery">
+                        <div class="pdp-grid">
 
-                            <div class="gallery-inner">
+                            <!-- Gallery -->
+                            <div class="pdp-gallery">
 
-                                <picture class="picture">
+                                <div class="gallery-inner">
 
-                                    <span class="icon">🍚</span>
+                                    <picture class="picture">
 
-                                </picture>
+                                        <span class="placeholder-icon">🍚</span>
 
-                                <span class="label">Photo Gallery</span>
-                                <div class="gallery-carousel">
-                                    <span class="thumbnail"></span>
-                                    <span class="thumbnail"></span>
-                                    <span class="thumbnail"></span>
-                                    <span class="thumbnail"></span>
-                                    <span class="thumbnail"></span>
+                                    </picture>
+
+                                    <span class="label">Photo Gallery</span>
+                                    <div class="thumbnail-grid">
+                                        <span class="thumbnail"></span>
+                                        <span class="thumbnail"></span>
+                                        <span class="thumbnail active"></span>
+                                        <span class="thumbnail"></span>
+                                        <span class="thumbnail"></span>
+                                    </div>
+
                                 </div>
 
                             </div>
 
-                        </div>
+                            <!-- Summary -->
+                            <div class="pdp-summary">
 
-                        <!-- Summary -->
-                        <div class="pdp-summary">
+                                <h2 class="title">Nutragold Crunchy White Garri</h2>
 
-                            <h2 class="title">Nutragold Crunchy White Garri</h2>
+                                <div class="pdp-price-meta">
 
-                            <div class="pdp-price-meta">
+                                    <div class="meta-inner">
 
-                                <div class="meta-inner">
+                                        <!-- ===== RETAIL PRICE (Visible in both views, but styled differently) ===== -->
+                                        <div class="price retail" style="display: flex;">₦6,000.00 – ₦35,000.00 <span class="label">Retail Price </span></div>
 
-                                    <!-- ===== RETAIL PRICE (Visible in both views, but styled differently) ===== -->
-                                    <div class="price retail" style="display: flex;">₦6,000.00 – ₦35,000.00 <span class="label">Retail Price </span></div>
-
-                                    <!-- ===== WHOLESALE PRICE (Prominent) ===== -->
-                                    <div class="price wholesale" style="display: none;">₦5,500.00 – ₦33,500.00 <span class="label">Wholesale Price: </span></div>
-                                    
-                                    <!-- ===== RETAIL STOCK (Simpler) ===== -->
-                                    <span class="stock-status out-stock d-none" >❌ Out of Stock</span>
+                                        <!-- ===== WHOLESALE PRICE (Prominent) ===== -->
+                                        <div class="price wholesale" style="display: none;">₦5,500.00 – ₦33,500.00 <span class="label">Wholesale Price: </span></div>
                                         
-                                    <!-- ===== RETAIL STOCK (Simpler) ===== -->
-                                    <span class="stock-status in-stock">✅ In Stock</span>
+                                        <!-- ===== RETAIL STOCK (Simpler) ===== -->
+                                        <span class="stock-status out-stock d-none" >❌ Out of Stock</span>
+                                            
+                                        <!-- ===== RETAIL STOCK (Simpler) ===== -->
+                                        <span class="stock-status in-stock">✅ In Stock</span>
+
+                                    </div>                                    
 
                                 </div>
                                     
                                 <!-- ===== Retailer Registration Prompt (Retail only) ===== -->
                                 <span class="wholesale-prompt">Want wholesale prices?!&nbsp;<a id="simulateLoginBtn" href="login.html" class="wholesale-register" data-auth="login">Login</a>&nbsp;or&nbsp;<a id="simulateRegisterBtn" href="register.html" class="wholesale-register" data-auth="register">Register Now</a>&nbsp;for a Retail Account.</span> 
 
-                            </div>
-
-                            <!-- ===== PRODUCT DESCRIPTION ===== -->
-                            <div class="overview">
-                                <h4 class="overview-title">Quick Overview</h4>
-                                <p class="short-desc">Premium white garri. Sourced from reputable farms. Available in retail and wholesale packs. Perfect for households and food businesses.</p>
-                            </div>
-                                
-                            <!-- ===== STOCK SELECTION ===== -->
-                            <div class="variant-selection">
-
-                                <!-- ===== VARIATION SELECTOR ===== -->
-                                <div class="variation-selector">
-
-                                    <label class="">Package Size:</label>
-
-                                    <div class="selector-wrap">
-                                            
-                                        <select id="retail" name="weight-price" title="weight-price" class="select retail" style="display: flex;">
-                                            <option value="">Select an Option</option>
-                                            <option value="5kg-standard" selected>5kg – ₦6,000 (Standard)</option>
-                                            <option value="5kg-premium">5kg – ₦8,000 (Premium)</option>
-                                            <option value="10kg-standard">10kg – ₦11,500 (Standard)</option>
-                                            <option value="10kg-premium">10kg – ₦15,500 (Premium)</option>
-                                            <option value="25kg-standard">25kg – ₦21,500 (Standard)</option>
-                                            <option value="50kg-premium">25kg  – ₦35,000 (Premium)</option>
-                                        </select>
-                                        
-                                        <select id="wholesale" name="weight-price" title="weight-price" class="select wholesale" style="display: none;">
-                                            <option value="5kg-standard" selected>5kg – ₦5,500 (Standard)</option>
-                                            <option value="5kg-premium">5kg – ₦7,500 (Premium)</option>
-                                            <option value="10kg-standard">10kg – ₦10,500 (Standard)</option>
-                                            <option value="10kg-premium">10kg – ₦15,000 (Premium)</option>
-                                            <option value="25kg-standard">25kg – ₦20,500 (Standard)</option>
-                                            <option value="50kg-premium">25kg  – ₦33,500 (Premium)</option>
-                                        </select>
-
-                                    </div>
-
+                                <!-- ===== PRODUCT DESCRIPTION ===== -->
+                                <div class="overview">
+                                    <h4 class="overview-title">Quick Overview</h4>
+                                    <p class="short-desc">Premium white garri. Sourced from reputable farms. Available in retail and wholesale packs. Perfect for households and food businesses.</p>
                                 </div>
-                                
-                                <!-- ===== STOCK STATUS (Wholesale-specific) ===== -->
-                                <span class="variant-unit-price retail" style="display: flex;">₦6,000.00</span>
-                                            
-                                <!-- ===== STOCK STATUS (Wholesale-specific) ===== -->
-                                <span class="variant-unit-price wholesale" style="display: none;">₦5,500.00</span>
                                     
-                                <!-- ===== STOCK STATUS (Wholesale-specific) ===== -->
-                                <span class="variant-unit-count">250 in stock</span>
-                                
-                                <!-- ===== SKU CODE (Wholesale-specific) ===== -->
-                                <span class="sku">SKU: GARR-001</span>            
+                                <!-- ===== STOCK SELECTION ===== -->
+                                <div class="variant-selection">
 
-                                <!-- ===== QUANTITY + ADD TO CART (Retail vs Wholesale) ===== -->
-                                <div class="qty-add">
+                                    <!-- ===== VARIATION SELECTOR ===== -->
+                                    <div class="variation-selector">
 
-                                    <!-- Retail QTY (default 1) -->
-                                    <div class="qty-input retail" style="display: none;">
+                                        <label class="">Package Size:</label>
 
-                                        <label for="qty-input" class="label">Qty:</label>
-                                        <input name="qty-input" type="number" value="1" min="1" title="qty-count">
-                                        <button type="submit" class="btn btn-green">Add to Cart</button>
+                                        <div class="selector-wrap">
+                                                
+                                            <select id="retail" name="weight-price" title="weight-price" class="select retail" style="display: flex;">
+                                                <option value="">Select an Option</option>
+                                                <option value="5kg-standard" selected>5kg – ₦6,000 (Standard)</option>
+                                                <option value="5kg-premium">5kg – ₦8,000 (Premium)</option>
+                                                <option value="10kg-standard">10kg – ₦11,500 (Standard)</option>
+                                                <option value="10kg-premium">10kg – ₦15,500 (Premium)</option>
+                                                <option value="25kg-standard">25kg – ₦21,500 (Standard)</option>
+                                                <option value="50kg-premium">25kg  – ₦35,000 (Premium)</option>
+                                            </select>
+                                            
+                                            <select id="wholesale" name="weight-price" title="weight-price" class="select wholesale" style="display: none;">
+                                                <option value="5kg-standard" selected>5kg – ₦5,500 (Standard)</option>
+                                                <option value="5kg-premium">5kg – ₦7,500 (Premium)</option>
+                                                <option value="10kg-standard">10kg – ₦10,500 (Standard)</option>
+                                                <option value="10kg-premium">10kg – ₦15,000 (Premium)</option>
+                                                <option value="25kg-standard">25kg – ₦20,500 (Standard)</option>
+                                                <option value="50kg-premium">25kg  – ₦33,500 (Premium)</option>
+                                            </select>
 
-                                    </div>
-
-                                    <!-- Wholesale QTY (default 10) -->
-                                    <div class="qty-input wholesale" style="display: none;">
-
-                                        <label for="qty-input" class="label">Qty:</label>
-                                        <input name="qty-input" type="number" value="10" min="10" step="1" title="qty-count">
-                                        <button type="submit" class="btn btn-primary">Add Bulk to  Cart</button>
-
-                                    </div>
-
-                                    <!-- QTY (default 1/10) -->
-                                    <div class="qty-input">
-
-                                        <label for="qty-input" class="label">Qty:</label>
-                                        <input class="qty-count retail" name="qty-input" type="number" value="1" min="1" step="1" title="qty-count"  style="display: flex;">
-                                        <input class="qty-count wholesale" name="qty-input" type="number" value="10" min="10" step="1" title="qty-count" style="display: none;">
-                                        <button type="submit" class="btn btn-green">Add to Cart</button>
+                                        </div>
 
                                     </div>
+                                    
+                                    <!-- ===== STOCK STATUS (Wholesale-specific) ===== -->
+                                    <span class="variant-unit-price retail" >₦6,000.00</span>
+                                                
+                                    <!-- ===== STOCK STATUS (Wholesale-specific) ===== -->
+                                    <span class="variant-unit-price wholesale" >₦5,500.00</span>
+                                        
+                                    <!-- ===== STOCK STATUS (Wholesale-specific) ===== -->
+                                    <span class="variant-unit-count">250 in stock</span>
+                                    
+                                    <!-- ===== SKU CODE (Wholesale-specific) ===== -->
+                                    <span class="sku">SKU: GARR-001</span>            
 
-                                    <label class="moq" style="display: none;">Minimum Order Quantity (MoQ): 10 bags</label>
+                                    <!-- ===== QUANTITY + ADD TO CART (Retail vs Wholesale) ===== -->
+                                    <div class="qty-add">
+
+                                        <!-- Retail QTY (default 1) -->
+                                        <div class="qty-input retail" style="display: none;">
+
+                                            <label for="qty-input" class="label">Qty:</label>
+                                            <input name="qty-input" type="number" value="1" min="1" title="qty-count">
+                                            <button type="submit" class="btn btn-green">Add to Cart</button>
+
+                                        </div>
+
+                                        <!-- Wholesale QTY (default 10) -->
+                                        <div class="qty-input wholesale" style="display: none;">
+
+                                            <label for="qty-input" class="label">Qty:</label>
+                                            <input name="qty-input" type="number" value="10" min="10" step="1" title="qty-count">
+                                            <button type="submit" class="btn btn-primary">Add Bulk to  Cart</button>
+
+                                        </div>
+
+                                        <!-- QTY (default 1/10) -->
+                                        <div class="qty-input">
+
+                                            <label for="qty-input" class="label">Qty:</label>
+                                            <input class="qty-count retail" name="qty-input" type="number" value="1" min="1" step="1" title="qty-count"  style="display: flex;">
+                                            <input class="qty-count wholesale" name="qty-input" type="number" value="10" min="10" step="1" title="qty-count" style="display: none;">
+                                            <button type="submit" class="btn btn-green">Add to Cart</button>
+
+                                        </div>
+
+                                        <label class="moq" style="display: none;">Minimum Order Quantity (MoQ): 10 bags</label>
+
+                                    </div>
 
                                 </div>
 
-                            </div>
+                                <div class="pdp-summary-notes">
 
-                            <div class="pdp-summary-notes">
+                                    <!-- ===== WHOLESALE DELIVERY NOTE ===== -->
+                                    <span class="delivery-note deliver wholesale">
+                                        🚚&nbsp;<strong>Free delivery</strong>&nbsp;on wholesale orders above ₦100,000 within Lagos.
+                                    </span>
 
-                                <!-- ===== WHOLESALE DELIVERY NOTE ===== -->
-                                <span class="delivery-note deliver wholesale" style="display: none;">
-                                    🚚&nbsp;<strong>Free delivery</strong>&nbsp;on wholesale orders above ₦100,000 within Lagos.
-                                </span>
+                                    <span class="delivery-note retail">
+                                        🚚 Same-day delivery within Lagos. Fee calculated at checkout.
+                                    </span>     
 
-                                <span class="delivery-note retail" style="display: flex;">
-                                    🚚 Same-day delivery within Lagos. Fee calculated at checkout.
-                                </span>     
+                                </div>
 
                             </div>
 
@@ -179,42 +186,41 @@
                     </div>
 
                     <!-- ===== PRODUCT SUMMARY ===== -->
-                    <div class="product-collateral">
+                    <div class="pdp-tabs-section">
 
-                        <div role="tablist" class="collateral-tabs">
-                            <span role="tab" class="description-tab">Description</span>
-                            <span role="tab" class="additionals-tab">Additional Information</span>
-                            <span role="tab" class="reviews-tab">Reviews</span>
-                        </div> 
-                        
-                        <div class="collateral-details description-pane">
+                        <div class="tab-headers" role="tablist">
 
-                            <h4>Product Description</h4>
-
-                            <div class="description-content">
-                                <p>Premium stone-free rice. Sourced from reputable farms. Available in retail and wholesale packs. Perfect for households and food businesses.</p>
-                            </div>
+                            <button type="button" class="tab-btn active" data-tab="description" role="tab">Description</button>
+                            <button type="button" class="tab-btn" data-tab="nutrition" role="tab">Nutritional Facts</button>
+                            <button type="button" class="tab-btn" data-tab="reviews" role="tab">Reviews (0)</button>
 
                         </div> 
-                        
-                        <div class="collateral-details additionals-pane">
 
-                            <h4>Nutritional Facts</h4>
+                        <div class="tab-contents">
 
-                            <div class="additionals-content">
-                                <p>Premium stone-free rice. Sourced from reputable farms. Available in retail and wholesale packs. Perfect for households and food businesses.</p>
+                            <!-- Tab 1: Description -->
+                            <div id="description" class="tab-panel active" role="tabpanel">
+                                <h3>Product Description</h3>
+                                <p>Our Nutragold Crunchy White Garri is processed using traditional cassava processing methods to preserve purity, texture, and taste. Carefully dried to maintain crisp freshness and long shelf life without chemical preservatives.</p>
                             </div>
 
-                        </div> 
-                        
-                        <div class="collateral-details reviews-pane">
-
-                            <h4>Product Reviews</h4>
-
-                            <div class="reviews-content">
-                                <p>Premium stone-free rice. Sourced from reputable farms. Available in retail and wholesale packs. Perfect for households and food businesses.</p>
+                            <!-- Tab 2: Nutritional Facts -->
+                            <div id="nutrition" class="tab-panel" role="tabpanel">
+                                <h3>Nutritional Facts</h3>
+                                <ul>
+                                <li><strong>Energy:</strong> 330 kcal per 100g</li>
+                                <li><strong>Carbohydrates:</strong> 80g</li>
+                                <li><strong>Dietary Fiber:</strong> 1.8g</li>
+                                <li><strong>100% Organic & Stone-Free</strong></li>
+                                </ul>
                             </div>
 
+                            <!-- Tab 3: Reviews -->
+                            <div id="reviews" class="tab-panel" role="tabpanel">
+                                <h3>Customer Reviews</h3>
+                                <p>There are no reviews yet. Be the first to review "Nutragold Crunchy White Garri".</p>
+                            </div>
+                            
                         </div> 
                         
                     </div>

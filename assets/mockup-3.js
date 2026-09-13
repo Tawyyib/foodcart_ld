@@ -1024,38 +1024,60 @@ window.getProductBySku = function(sku) {
 
     // Helper: Safe evaluation of wholesale mode
     function isWholesaleActiveSafe() {
+
         if (typeof window.isWholesaleActive === 'function') {
+
             return window.isWholesaleActive();
+
         }
+
         return localStorage.getItem('wholesaleMode') === 'true';
+
     }
 
     // Load cart state synchronously from localStorage
     function loadCart() {
         try {
+
             const stored = localStorage.getItem('foodcart_cart');
             cart = stored ? JSON.parse(stored) : [];
+
         } catch (e) {
+
             cart = [];
+
         }
+
     }
 
     // Save state & trigger UI updates across components
     function saveCart() {
+
         try {
+
             localStorage.setItem('foodcart_cart', JSON.stringify(cart));
+
         } catch (e) {
+
             console.error('Failed to save cart to localStorage:', e);
+
         }
+
         updateCartBadge();
         updateMiniCart();
         
         if (typeof window.renderCartPage === 'function') {
+            
             window.renderCartPage();
+
         }
+
         if (typeof window.renderCheckoutSummary === 'function') {
+
             window.renderCheckoutSummary();
+
         }
+
     }
 
     // --- Global Cart API Methods ---
@@ -1075,8 +1097,10 @@ window.getProductBySku = function(sku) {
         loadCart();
         const isWholesale = isWholesaleActiveSafe();
         return cart.reduce((total, item) => {
+
             const price = isWholesale ? (item.wholesalePrice || item.retailPrice) : item.retailPrice;
             return total + (price * item.quantity);
+
         }, 0);
 
     };
@@ -1207,6 +1231,7 @@ window.getProductBySku = function(sku) {
 
     // Cart Page renderer
     window.renderCartPage = function() {
+
         const tableBody = document.getElementById('cart-table-body') || document.getElementById('cart-items');
         if (!tableBody) return;
 
@@ -1219,6 +1244,7 @@ window.getProductBySku = function(sku) {
 
         // 1. Empty Cart Table State
         if (items.length === 0) {
+
             tableBody.innerHTML = `
                 <tr>
                     <td colspan="5" style="text-align:center; padding:40px 20px;">
@@ -1229,9 +1255,11 @@ window.getProductBySku = function(sku) {
                     </td>
                 </tr>`;
         } else {
+
             // 2. Populate Cart Rows
             let tableHtml = '';
             items.forEach(item => {
+
                 const price = isWholesale ? (item.wholesalePrice || item.retailPrice) : item.retailPrice;
                 const itemSubtotal = price * item.quantity;
                 const itemImage = item.image ? `<img src="${item.image}" alt="${item.name}" style="width:36px; height:36px; object-fit:cover; border-radius:4px; vertical-align:middle; margin-right:8px;">` : '';
@@ -1258,8 +1286,11 @@ window.getProductBySku = function(sku) {
                                 title="Remove item">✕</span>
                         </td>
                     </tr>`;
+
             });
+
             tableBody.innerHTML = tableHtml;
+
         }
 
         // 3. Free Shipping Progress Bar

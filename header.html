@@ -23,11 +23,14 @@
 
                 <div class="header-inner container">
 
-                    <!-- 1. Site Branding -->
+                    <!-- 1. Mobile Hamburger Toggle Button -->
+                    <button id="mobileToggle" class="mobile-toggle" aria-label="Toggle Navigation">☰</button>
+
+                    <!-- 2. Site Branding -->
                      <div class="site-branding">
                     
                         <!-- 1. Brand Logo -->
-                        <a href="index.html" class="logo" title="Home" aria-label="GreenCart Stores">
+                        <a href="index.html" class="site-logo" title="Home" aria-label="GreenCart Stores">
 
                             <svg class="logo-mark" aria-hidden="true">
                                 <use class="use-full" href="assets/greencarts.svg#logo-full"></use>
@@ -36,40 +39,43 @@
                             </svg>
   
                         </a>
-
-                        <!-- Dynamic Wholesale Status Badge -->
-                        <div id="pricing-status-pill" class="pricing-status-pill retail">
+                    
+                        <!-- 4. Dynamic Wholesale Status Badge -->
+                        <div id="pricing-status-pill" class="pricing-status-pill retail mobile-pill">
                             <span class="status-dot"></span>
                             <span id="pillPricingText" class="status-text">Retail</span>
                         </div>
 
                      </div>
-                                    
-                    <!-- 2. Primary Navigation -->
+
+                    <!-- 3. Primary Navigation -->
                     <div class="nav-bar">
 
                         <nav id="primary-nav" class="nav-links">
                             <div class="nav-link"><a href="shop.html">Catalog</a></div>
-                            <div class="nav-link"><a href="contact.html">Contact</a></div>
+                            <div class="nav-link"><a href="contact.html">Contact</a></ div>
                         </nav>
 
                     </div>                    
 
-                    <!-- 3. Central Search Bar -->
-                    <div class="search-bar">
-                        <form action="shop.html" method="GET" class="search-form">
-                            <input 
-                                type="text" 
-                                name="q" 
-                                placeholder="Search Nutragold® Rice, Beans, Garri, or SKU..." 
-                                autocomplete="off"
-                                required>
+                    <!-- 4. Dynamic Wholesale Status Badge -->
+                    <div id="pricing-status-pill" class="pricing-status-pill retail desktop-pill">
+                        <span class="status-dot"></span>
+                        <span id="pillPricingText" class="status-text">Guest</span>
+                    </div>      
+
+                    <!-- 5. Central Search Bar -->
+                    <div id="searchBar" class="search-bar">
+                        <form id="searchForm" action="shop.html" method="GET" class="search-form">
+                            <input id="searchInput" type="text" name="q" placeholder="Search food staples, rice, beans, garri..." autocomplete="off" required>
                             <button type="submit" aria-label="Search">🔍</button>
                         </form>
                     </div>
 
-                    <!-- 4. Header Action Utilities -->
+                    <!-- 6. Header Action Utilities -->
                     <div class="header-buttons">
+                            
+                        <button id="searchToggleBtn" class="search-btn" type="button" aria-label="Search">🔍</button>
 
                         <!-- LOGGED-OUT STATE: Login / Register Dropdown -->
                         <div id="user-profile" class="profile-link">
@@ -111,9 +117,6 @@
                         <a href="cart.html" class="cart-btn" title="View Cart">
                             🛒 <span class="cart-badge bg-amber">0</span>
                         </a>
-
-                        <!-- Mobile Hamburger Toggle Button -->
-                        <button id="mobileToggle" class="mobile-toggle" aria-label="Toggle Navigation">☰</button>
 
                     </div>
 

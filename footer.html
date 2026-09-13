@@ -8,23 +8,23 @@
                 <div class="trademark-strip container">
                     
                     <div class="trademark-logos">
-                        <span class="nutra-mark">
-                            <svg class="logo-mark" aria-hidden="true">
+                        <span class="cart-mark">
+                            <svg class="logo" aria-hidden="true" viewBox="0 0 28383.98 6272.12">
                                 <use class="use-compact" href="assets/greencarts.svg#logo-compact"></use>
                             </svg>
                         </span>
-                        <span class="cart-mark">
-                            <svg class="logo-mark" aria-hidden="true">
+                        <span class="nutra-mark">
+                            <svg class="logo" aria-hidden="true" viewBox="0 0 24189.36 4568.92">
                                 <use class="use-compact" href="assets/nutragold.svg#logo-mark"></use>
                             </svg>                            
                         </span>
                     </div>
-
-                    <p class="trademark-strip-text">
+                    
+                    <div class="trademark-texts">
                         The <span class="brand">Greencart®</span> and <span class="brand">Nutragold®</span> brands, logo and trademarks are the properties of <span class="company">TerraNova Foods Ltd</span>. 
                         All other brand names, trademarks, and logos are properties of their respective holders.
-                    </p>
-                    
+                    </div>
+
                 </div>                    
 
             </div>
@@ -106,8 +106,10 @@
                     <!--<h4 class="footer-title">Trust Guarantee</h4> -->
 
                     <div class="trust-badges">
-                        <span class="trust-badge-pill"><span class="trust-badge" title="Paystack">💳</span>Secured Checkout</span>
-                        <span class="trust-badge-pill"><span class="trust-badge" title="RouteLift">🛵</span>Express Delivery</span>
+                        <span class="trust-badge-pill"><span class="trust-badge" title="SSL">🔒</span>Secured Checkout</span>
+                        <span class="trust-badge-pill"><span class="trust-badge" title="Paystack">💳</span>PCI Compliant</span>
+                        <span class="trust-badge-pill"><span class="trust-badge" title="RouteLift">🚚</span>Express Delivery</span>
+                        <span class="trust-badge-pill"><span class="trust-badge" title="RouteLift">✅</span>Verified Payments</span>
                     </div>
 
                 </div>
@@ -398,15 +400,13 @@
 
                                     <div class="input-wrap">
                                         <span class="auth-label">Business Type <span class="required">*</span></span>
-                                        <div class="input-selector">
-                                            <select id="regBusinessType" class="selector" name="business-type" title="type-selector" required>
-                                                <option value="Retailer" selected>Retailer / Supermarket</option>
-                                                <option value="Wholesaler">Wholesaler</option>
-                                                <option value="Distributor">Distributor</option>
-                                                <option value="Food Vendor">Food Vendor / Catering</option>
-                                                <option value="Restaurant">Restaurant / Hotel</option>
-                                            </select>
-                                        </div>
+                                        <select id="regBusinessType" class="input-selector" name="business-type" title="type-selector" required>
+                                            <option value="Retailer" selected>Retailer / Supermarket</option>
+                                            <option value="Wholesaler">Wholesaler</option>
+                                            <option value="Distributor">Distributor</option>
+                                            <option value="Food Vendor">Food Vendor / Catering</option>
+                                            <option value="Restaurant">Restaurant / Hotel</option>
+                                        </select>
                                     </div>
 
                                 </div>
@@ -429,8 +429,7 @@
 
                                 <div class="input-wrap">
                                     <span class="auth-label">LGA <span class="required">*</span></span>
-                                    <div class="input-selector">
-                                        <select id="regLga" class="selector" required>
+                                    <select id="regLga" class="input-selector" title="register" required>
                                             <option value="">Select LGA...</option>
                                             <option value="agege">Agege</option>
                                             <option value="ajeromi-ifelodun">Ajeromi/Ifelodun</option>
@@ -452,8 +451,7 @@
                                             <option value="ojo">Ojo</option>
                                             <option value="somolu">Somolu</option>
                                             <option value="surulere">Surulere</option>
-                                        </select>                                        
-                                    </div>
+                                    </select>                                        
                                 </div>
 
                                 <div class="input-wrap">
@@ -605,7 +603,7 @@
                             <span class="icon">❌</span>
                             <h2 class="title">Order Failed</h2>
                             <p class="desc">We're sorry, but we couldn't complete your order.</p>
-                            <p class="desc" style="color:#dc2626;" id="orderErrorMessage">Payment verification failed. Please try again.</p>
+                            <p class="desc error" id="orderErrorMessage">Payment verification failed. Please try again.</p>
                         </div>
 
                         <div class="auth-success-grid">

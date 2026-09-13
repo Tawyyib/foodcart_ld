@@ -23,81 +23,167 @@
                     
                     <form id="checkout-form" class="checkout-grid">
                                             
-                        <div class="checkout-form">
+                        <div class="checkout-grid-inner">
                             
-                            <h3 style="margin-bottom:16px;">Billing Details</h3>
+                            <!-- Billing Details -->
+                            <div id="billing" class="billing-column">
+                                
+                                <h3 class="form-title">Billing Details</h3>
 
-                            <!-- Full Name -->
-                            <div style="margin-bottom:12px;">
-                                <label style="display:block; font-weight:600; font-size:0.9rem; margin-bottom:4px;">Full Name <span style="color:#dc2626;">*</span></label>
-                                <input type="text" id="checkout-name" placeholder="John Doe" value="" style="width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:8px;">
+                                <div class="column-inner">
+
+                                    <!-- Full Name -->
+                                    <div class="input-wrap">
+                                        <span class="input-label">Full Name <span class="required">*</span></span>
+                                        <input type="text" id="billing-name" class="input-field" placeholder="John Doe" value="" required>
+                                    </div>
+
+                                    <!-- Phone -->
+                                    <div class="input-wrap">
+                                        <span class="input-label">Phone <span class="required">*</span></span>
+                                        <input type="tel" id="billing-phone" class="input-field" placeholder="08012345678" value="" required>
+                                    </div>
+
+                                    <!-- Email -->
+                                    <div class="input-wrap">
+                                        <span class="input-label">E-mail <span class="required">*</span></span>
+                                        <input type="email" id="billing-email" class="input-field" placeholder="john@example.com" value="" required>
+                                    </div>
+
+                                    <!-- Address -->
+                                    <div class="input-wrap">
+                                        <span class="input-label">Address <span class="required">*</span></span>
+                                        <input id="billing-address-1" class="input-field" name="billing-address-1" placeholder="Line 1: House No. and Street Name" value="" required></input>
+                                        <input id="billing-address-2" class="input-field" name="billing-address-2" placeholder="Line 2: Apartment, Block, Suite No. or Closest Landmark (Optional)" value=""></input>
+                                    </div>
+
+                                    <!-- Suburb/Town -->
+                                    <div class="input-wrap">
+                                        <label class="input-label">Suburb/Town<span class="required">*</span></label>
+                                        <input type="text" id="billing-suburb" class="input-field" placeholder="e.g. Ilasamaja, Ipodo" value="" required>
+                                    </div>
+
+                                    <!-- LGA -->
+                                    <div class="input-wrap">
+                                        <span class="input-label">LGA <span class="required">*</span></span>
+                                        <select id="billing-lga" class="input-selector" title="checkout" required>
+                                            <option value="">Select LGA...</option>
+                                            <option value="agege">Agege</option>
+                                            <option value="ajeromi-ifelodun">Ajeromi/Ifelodun</option>
+                                            <option value="alimosho">Alimosho</option>
+                                            <option value="Apapa">Apapa</option>
+                                            <option value="amuwo-odofin">Amuwo Odofin</option>
+                                            <option value="badagry">Badagry</option>
+                                            <option value="eti-osa">Eti-Osa (Lekki/VI)</option>
+                                            <option value="epe">Epe</option>
+                                            <option value="ibeju-lekki">Ibeju-Lekki</option>
+                                            <option value="ifako-ijaye">Ifako-Ijaye</option>
+                                            <option value="ikeja" selected>Ikeja</option>
+                                            <option value="ikorodu">Ikorodu</option>
+                                            <option value="kosofe">Kosofe</option>
+                                            <option value="lagos-island">Lagos Island</option>
+                                            <option value="lagos-mainland">Lagos Mainland</option>
+                                            <option value="mushin">Mushin</option>
+                                            <option value="oshodi-isolo">Oshodi-Isolo</option>
+                                            <option value="ojo">Ojo</option>
+                                            <option value="somolu">Somolu</option>
+                                            <option value="surulere">Surulere</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <!-- Collect Shipping Data -->
+                                <div class="check-wrap">
+                                    <input id="ship-to-different" class="auth-check" type="checkbox">
+                                    <label class="auth-label" for="ship-to-different">Ship to a different Address?</label>
+                                </div>
+
                             </div>
 
-                            <!-- Phone -->
-                            <div style="margin-bottom:12px;">
-                                <label style="display:block; font-weight:600; font-size:0.9rem; margin-bottom:4px;">Phone<span style="color:#dc2626;">*</span></label>
-                                <input type="tel" id="checkout-phone" placeholder="08012345678" value="" style="width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:8px;">
-                            </div>
+                            <!-- Shipping Details -->
+                            <div id="shipping" class="shipping-column d-none">
+                                
+                                <h3 class="form-title">Shipping Details</h3>
 
-                            <!-- Email -->
-                            <div style="margin-bottom:12px;">
-                                <label style="display:block; font-weight:600; font-size:0.9rem; margin-bottom:4px;">Email<span style="color:#dc2626;">*</span></label>
-                                <input type="email" id="checkout-email" placeholder="john@example.com" value="" style="width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:8px;">
-                            </div>
+                                <div class="column-inner">
+                                    
+                                    <!-- Full Name -->
+                                    <div class="input-wrap">
+                                        <span class="input-label">Full Name <span class="required">*</span></span>
+                                        <input type="text" id="shipping-name" class="input-field" placeholder="John Doe" value="">
+                                    </div>
 
-                            <!-- Address -->
-                            <div style="margin-bottom:12px;">
-                                <label style="display:block; font-weight:600; font-size:0.9rem; margin-bottom:4px;">Address<span style="color:#dc2626;">*</span></label>
-                                <input type="text" id="checkout-address" placeholder="123 Awolowo Road, Opposite Shoprite" value="" style="width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:8px;">
-                            </div>
+                                    <!-- Phone -->
+                                    <div class="input-wrap">
+                                        <span class="input-label">Phone <span class="required">*</span></span>
+                                        <input type="tel" id="shipping-phone" class="input-field" placeholder="08012345678" value="">
+                                    </div>
 
-                            <!-- Closest Landmark -->
-                            <div style="margin-bottom:12px;">
-                                <label style="display:block; font-weight:600; font-size:0.9rem; margin-bottom:4px;">Landmark / Nearest Junction<span style="color:#dc2626;">*</span></label>
-                                <input type="text" id="checkout-landmark" placeholder="e.g. Beside Lotus Bank" value="" style="width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:8px;">
-                            </div>
+                                    <!-- Email -->
+                                    <div class="input-wrap">
+                                        <span class="input-label">E-mail <span class="required">*</span></span>
+                                        <input type="email" id="shipping-email" class="input-field" placeholder="john@example.com" value="">
+                                    </div>
 
-                            <!-- LGA -->
-                            <div style="margin-bottom:12px;">
-                                <label style="display:block; font-weight:600; font-size:0.9rem; margin-bottom:4px;">Local Government Area (LGA) <span style="color:#dc2626;">*</span></label>
-                                <select id="checkout-lga" style="width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:8px; background:white;">
-                                    <option value="">Select LGA...</option>
-                                    <option value="agege">Agege</option>
-                                    <option value="ajeromi-ifelodun">Ajeromi/Ifelodun</option>
-                                    <option value="alimosho">Alimosho</option>
-                                    <option value="Apapa">Apapa</option>
-                                    <option value="amuwo-odofin">Amuwo Odofin</option>
-                                    <option value="badagry">Badagry</option>
-                                    <option value="eti-osa">Eti-Osa (Lekki/VI)</option>
-                                    <option value="epe">Epe</option>
-                                    <option value="ibeju-lekki">Ibeju-Lekki</option>
-                                    <option value="ifako-ijaye">Ifako-Ijaye</option>
-                                    <option value="ikeja" selected>Ikeja</option>
-                                    <option value="ikorodu">Ikorodu</option>
-                                    <option value="kosofe">Kosofe</option>
-                                    <option value="lagos-island">Lagos Island</option>
-                                    <option value="lagos-mainland">Lagos Mainland</option>
-                                    <option value="mushin">Mushin</option>
-                                    <option value="oshodi-isolo">Oshodi-Isolo</option>
-                                    <option value="ojo">Ojo</option>
-                                    <option value="somolu">Somolu</option>
-                                     <option value="surulere">Surulere</option>
-                               </select>
+                                    <!-- Address -->
+                                    <div class="input-wrap">
+                                        <span class="input-label">Address <span class="required">*</span></span>
+                                        <input id="shipping-address-1" class="input-field" name="shipping-address-1" placeholder="Line 1: House No. and Street Name" value="" required></input>
+                                        <input id="shipping-address-2" class="input-field" name="shipping-address-2" placeholder="Line 2: Apartment, Block, Suite No. or Closest Landmark (Optional)" value=""></input>
+                                    </div>
+
+                                    <!-- Suburb/Town -->
+                                    <div class="input-wrap">
+                                        <label class="input-label">Suburb/Town<span class="required">*</span></label>
+                                        <input type="text" id="shipping-suburb" class="input-field" placeholder="e.g. Ilasamaja, Ipodo" value="">
+                                    </div>
+
+                                    <!-- LGA -->
+                                    <div class="input-wrap">
+                                        <span class="input-label">LGA <span class="required">*</span></span>
+                                        <select id="shipping-lga" class="input-selector" title="checkout" required>
+                                            <option value="">Select LGA...</option>
+                                            <option value="agege">Agege</option>
+                                            <option value="ajeromi-ifelodun">Ajeromi/Ifelodun</option>
+                                            <option value="alimosho">Alimosho</option>
+                                            <option value="Apapa">Apapa</option>
+                                            <option value="amuwo-odofin">Amuwo Odofin</option>
+                                            <option value="badagry">Badagry</option>
+                                            <option value="eti-osa">Eti-Osa (Lekki/VI)</option>
+                                            <option value="epe">Epe</option>
+                                            <option value="ibeju-lekki">Ibeju-Lekki</option>
+                                            <option value="ifako-ijaye">Ifako-Ijaye</option>
+                                            <option value="ikeja" selected>Ikeja</option>
+                                            <option value="ikorodu">Ikorodu</option>
+                                            <option value="kosofe">Kosofe</option>
+                                            <option value="lagos-island">Lagos Island</option>
+                                            <option value="lagos-mainland">Lagos Mainland</option>
+                                            <option value="mushin">Mushin</option>
+                                            <option value="oshodi-isolo">Oshodi-Isolo</option>
+                                            <option value="ojo">Ojo</option>
+                                            <option value="somolu">Somolu</option>
+                                            <option value="surulere">Surulere</option>
+                                        </select>
+                                    </div>
+                                    
+                                </div>
+
                             </div>
 
                             <!-- Delivery Speed -->
-                            <div>
-                                <label style="display:block; font-weight:600; font-size:0.9rem; margin-bottom:4px;">Delivery Speed</label>
-                                <select id="checkout-speed" style="width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:8px; background:white;">
+                            <div class="input-wrap">
+                                <span class="input-label">Delivery Speed <span class="required">*</span></span>
+                                <select id="checkout-speed" class="input-selector" title="checkout" required>
                                     <option value="express" data-fee="700">🚀 Express (Same-Day) – ₦700</option>
                                     <option value="standard" data-fee="300">📦 Standard (3-5 days) – ₦300</option>
                                 </select>                                                               
                             </div>
 
                             <!-- Payment Method (optional, for demo) -->
-                            <div style="margin-bottom:16px;">
-                                <label style="display:block; font-weight:600; font-size:0.9rem; margin-bottom:4px;">Payment Method</label>
-                                <select id="checkout-payment" style="width:100%; padding:10px; border:1px solid #e2e8f0; border-radius:8px; background:white;">
+                            <div class="input-wrap">
+                                <span class="input-label">Payment Method<span class="required">*</span></span>
+                                <select id="checkout-payment" class="input-selector" title="checkout" required>
                                     <option value="card">💳 Card</option>
                                     <option value="bank">🏦 Bank Transfer</option>
                                     <option value="ussd">📱USSD Transfer</option>
@@ -109,18 +195,20 @@
 
                         <div id="order-summary" class="order-summary">
 
-                            <h3>Your Order</h3>
+                            <h3 class="summary-title">Order Summary</h3>
 
-                            <div class="order-summary-inner" style="margin-bottom: 25px;">
+                            <div class="order-summary-inner">
                               
                             </div>
                             
                             <!-- Place Order Button -->
-                            <button id="order-btn" type="submit" class="btn btn-green" style="width:100%; padding:14px; border-radius:8px; font-size:1.1rem; font-weight:700; border:none; cursor:pointer; background:#16a34a; color:white;">🛒 Place Order</button>
+                            <div class="push-order">
 
-                            <!--<button class="btn btn-green" style="width:100%; padding:14px; border-radius:8px; font-size:1.1rem; margin-top:12px;">✔ Place Order</button>-->
+                                <button id="order-btn" type="submit" class="btn btn-green checkout-order">Place Order ✔</button>
 
-                            <p class="">🔒 Secure transaction via Paystack</p>
+                                <p class="footnote">🔒 Secure transaction via Paystack</p>
+
+                            </div>
 
                         </div>
                     
