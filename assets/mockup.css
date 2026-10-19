@@ -133,8 +133,8 @@
 
     .container {
         margin: 0 auto;
-        padding: 0;
-        max-width: 1300px;
+        padding: 0 ;
+        max-width: 1280px;
     }
         
     /* --- TOP ANNOUNCEMENT BAR --- */
@@ -143,8 +143,8 @@
     .top-bar {
         margin: 0;
         padding: .75rem 0;
-        padding-right: 1.75rem;
-        padding-left: 1.75rem;            
+        padding-right: 1.25rem;
+        padding-left: 1.25rem;            
         background-color: #0f172a; /* Dark sleek background */
         background: #010611; /* Deeper dark shade to contrast header */
         color: #f8fafc;
@@ -1834,7 +1834,7 @@
     .pdp-main .mobile-title {
         margin: 0;
         padding: 0;
-        font-size: 2.25rem;
+        font-size: 2rem;
         display: block;
     }
 
@@ -2943,9 +2943,9 @@
         margin: 0 auto;
         padding: 0;
         display: flex;
-        flex-flow: column wrap;
+        flex-direction: column;
         align-items: center;
-        gap: .625rem;
+        gap: 1.25rem;
     }
 
     .trademark-logos {
@@ -2953,29 +2953,30 @@
         padding: 0;
         display: flex;
         flex-direction: row;
-        gap: .9375rem;
+        gap: 1.125rem;
         align-items: center;
-        flex: 1;
     }
 
-    .nutra-mark,
-    .cart-mark {
+    .ng-mark,
+    .gc-mark {
         margin: 0;
         padding: 0;
         display: flex;
         align-items: center;
         justify-content: center;
+        width: auto;
+        height: 2.125rem;
         gap: .5rem;
         color: #94a3b8;
     }
 
-    .cart-mark .logo,
-    .nutra-mark .logo {
+    .gc-mark .logo,
+    .ng-mark .logo {
         margin: 0;
         padding: 0;
         display: block;
-        width: 8.25rem;
-        height: auto;
+        width: 100%;
+        height: 100%;
 
         /*-- svg sharpening properties--*/
         shape-rendering: geometricPrecision; 
@@ -2993,7 +2994,6 @@
         line-height: 1.65;
         color: #d8e3ef;
         letter-spacing: 0.02rem;
-        flex: 1;
         text-align: center;
     }
 
@@ -3935,8 +3935,8 @@
         .site-trademark,
         .site-footer-top,
         .site-footer-bottom {
-            padding-right: 2.25rem;
-            padding-left: 2.25rem;    
+            padding-right: 1.875rem;
+            padding-left: 1.875rem;    
         }
 
         .header-buttons {
@@ -4308,13 +4308,14 @@
     } 
 
         .trademark-strip {
-            flex-flow: row wrap;
+            flex-direction: row;
+            justify-content: space-between;
             gap: 1.25rem;
         }
     
         .trademark-texts {
-            flex: 3.25;
-            text-align: left;
+            max-width: 60%;
+            text-align: right;
         }
 
         .footer-bottom {

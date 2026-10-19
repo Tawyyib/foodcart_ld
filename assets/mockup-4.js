@@ -6,8 +6,18 @@
  * 1. GLOBAL PRODUCT CATALOG DATA STRUCTURE
  */
 window.productCatalog = {
-    'RICE-5KG':          { name: 'Nutragold Rice (5kg)', retailPrice: 7000, wholesalePrice: 6800 },
-    'RICE-10KG':         { name: 'Nutragold Rice (10kg)', retailPrice: 13000, wholesalePrice: 12000 },
+    'RICE-5KG':          
+    { 
+        name: 'Nutragold Rice (5kg)', 
+        retailPrice: 7000, 
+        wholesalePrice: 6800 
+    },
+    'RICE-10KG':         
+    { 
+        name: 'Nutragold Rice (10kg)', 
+        retailPrice: 13000, 
+        wholesalePrice: 12000 
+    },
     'RICE-25KG':         { name: 'Nutragold Rice (25kg)', retailPrice: 29000, wholesalePrice: 26000 },
     'RICE-50KG':         { name: 'Nutragold Rice (50kg)', retailPrice: 59000, wholesalePrice: 52000 },
     'HONEY-BEANS5KG-':   { name: 'Honey Beans (5kg)', retailPrice: 11000, wholesalePrice: 10000 },
@@ -125,6 +135,7 @@ window.getProductBySku = function(sku) {
     } else {
         initStockUI();
     }
+
 })();
 
 // ============================================
